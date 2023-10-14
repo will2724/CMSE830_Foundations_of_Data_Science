@@ -21,6 +21,7 @@ st.header('IDA')
 
 
 df = pd.read_csv('/Users/sharodwilliams/Git:/CMSE830_Foundations_of_Data_Science/data.csv')
+
 df.pop('Unnamed: 0')
 age = [2023 - i  if i != -1 else i for i in df['Founded']]
 df = df.rename(columns = {'Type of ownership' : 'Type of Ownership',
