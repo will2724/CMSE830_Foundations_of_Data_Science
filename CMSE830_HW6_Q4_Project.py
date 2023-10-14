@@ -18,7 +18,15 @@ st.title('Data Scientist Salaries')
 #value = '125000'
 #col5.metric(label = 'Average Data Scientist', value = '125000', delta = int(value) - int(number))
 st.header('IDA')
-df = pd.read_csv('/Users/sharodwilliams/CMSE830_Foundations_in_Data_Science/project/data.csv')
+
+dataset = pd.read_csv(os.path.join('/Users/sharodwilliams/CMSE830_Foundations_in_Data_Science/project/data.csv'))
+
+def handle_data(data):
+    df = dataset
+    return df
+
+
+#df = pd.read_csv('/Users/sharodwilliams/CMSE830_Foundations_in_Data_Science/project/data.csv')
 df.pop('Unnamed: 0')
 age = [2023 - i  if i != -1 else i for i in df['Founded']]
 df = df.rename(columns = {'Type of ownership' : 'Type of Ownership',
