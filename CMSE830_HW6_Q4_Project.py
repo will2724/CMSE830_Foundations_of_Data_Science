@@ -12,7 +12,6 @@ import seaborn as sns
 import streamlit as st
 import os
 
-
 st.title('Data Scientist Salaries')
 #col1, col2, col3, col4, col5  = st.columns([1,1,1,1,1.04])
 #number = st.number_input('Enter your current salary:', min_value = 40000, value = 40000 )
@@ -20,9 +19,8 @@ st.title('Data Scientist Salaries')
 #col5.metric(label = 'Average Data Scientist', value = '125000', delta = int(value) - int(number))
 st.header('IDA')
 
-df = st.file_uploader('/Users/sharodwilliams/CMSE830_Foundations_in_Data_Science/project/data.csv')
 
-#df = pd.read_csv('/Users/sharodwilliams/CMSE830_Foundations_in_Data_Science/project/data.csv')
+df = pd.read_csv('/Users/sharodwilliams/Git:/CMSE830_Foundations_of_Data_Science/data.csv')
 df.pop('Unnamed: 0')
 age = [2023 - i  if i != -1 else i for i in df['Founded']]
 df = df.rename(columns = {'Type of ownership' : 'Type of Ownership',
