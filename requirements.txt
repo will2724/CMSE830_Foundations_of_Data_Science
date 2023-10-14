@@ -1,1 +1,2 @@
 seaborn==0.11.2
+pathlib==1.0.1 
