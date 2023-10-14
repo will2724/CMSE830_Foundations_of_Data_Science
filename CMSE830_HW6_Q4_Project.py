@@ -11,6 +11,7 @@ import re
 import seaborn as sns
 import streamlit as st
 import os
+from pathlib import path
 
 st.title('Data Scientist Salaries')
 #col1, col2, col3, col4, col5  = st.columns([1,1,1,1,1.04])
@@ -19,12 +20,7 @@ st.title('Data Scientist Salaries')
 #col5.metric(label = 'Average Data Scientist', value = '125000', delta = int(value) - int(number))
 st.header('IDA')
 
-dataset = pd.read_csv(os.path.join('/Users/sharodwilliams/CMSE830_Foundations_in_Data_Science/project/data.csv'))
-
-def handle_data(data):
-    df = dataset
-    return df
-
+df = path(pd.read_csv(os.path.join('/Users/sharodwilliams/CMSE830_Foundations_in_Data_Science/project/data.csv')))
 
 #df = pd.read_csv('/Users/sharodwilliams/CMSE830_Foundations_in_Data_Science/project/data.csv')
 df.pop('Unnamed: 0')
