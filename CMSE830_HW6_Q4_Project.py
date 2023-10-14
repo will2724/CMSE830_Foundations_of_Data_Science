@@ -19,30 +19,36 @@ st.title('Data Scientist Salaries')
 #col5.metric(label = 'Average Data Scientist', value = '125000', delta = int(value) - int(number))
 st.header('IDA')
 
-with dataset:
-    df = pd.read_csv('data.csv')
-    df.pop('Unnamed: 0')
-    age = [2023 - i  if i != -1 else i for i in df['Founded']]
-    df = df.rename(columns = {'Type of ownership' : 'Type of Ownership',
-    'min_salary' : 'Min. Salary',
-    'max_salary' : 'Max. Salary',
-    'avg_salary' : 'Avg. Salary',
-    'job_state' : 'Job State',
-    'same_state' : 'Same State',
-    'age' : 'Age',
-    'python_yn' : 'Python Exp',
-    'R_yn' : 'R Exp.',
-    'spark' : 'Spark Exp.',
-    'aws' : 'AWS Exp.',
-    'excel' : 'Excel Exp.',
-    'job_simp' : 'Title Simplified',
-    'Headquarters' : 'HQ',
-    'hourly' : 'Hourly',
-    'desc_len' : 'Description Length',
-    'num_comp' : '# of Competitors',
-    'employer_provided' : 'Employer Provided',
-    'seniority' : 'Seniority'
-    })
+df = pd.read_csv('Git:/CMSE830_Foundations_of_Data_Science/data.csv')
+
+#def load_data(file_name):
+#    df = pd.read_csv(file_name)
+#    return df
+
+
+df.pop('Unnamed: 0')
+#age = [2023 - i  if i != -1 else i for i in df['Founded']]
+df = df.rename(columns = {'Type of ownership' : 'Type of Ownership',
+                      'min_salary' : 'Min. Salary',
+                      'max_salary' : 'Max. Salary',
+                      'avg_salary' : 'Avg. Salary',
+                      'job_state' : 'Job State',
+                      'same_state' : 'Same State',
+                      'age' : 'Age',
+                      'python_yn' : 'Python Exp',
+                      'R_yn' : 'R Exp.',
+                      'spark' : 'Spark Exp.',
+                      'aws' : 'AWS Exp.',
+                      'excel' : 'Excel Exp.',
+                      'job_simp' : 'Title Simplified',
+                     'Headquarters' : 'HQ',
+                     'hourly' : 'Hourly',
+                     'desc_len' : 'Description Length',
+                     'num_comp' : '# of Competitors',
+                     'employer_provided' : 'Employer Provided',
+                     'seniority' : 'Seniority',
+
+                     })
 
 df['Title Simplified'] = df['Title Simplified'].str.replace('Mle', 'MLE')
 
