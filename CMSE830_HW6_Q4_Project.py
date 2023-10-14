@@ -20,7 +20,7 @@ st.title('Data Scientist Salaries')
 #col5.metric(label = 'Average Data Scientist', value = '125000', delta = int(value) - int(number))
 st.header('IDA')
 
-df = path(pd.read_csv(os.path.join('/Users/sharodwilliams/CMSE830_Foundations_in_Data_Science/project/data.csv')))
+df = path(__file__).Parent[1] / '/Users/sharodwilliams/CMSE830_Foundations_in_Data_Science/project/data.csv'
 
 #df = pd.read_csv('/Users/sharodwilliams/CMSE830_Foundations_in_Data_Science/project/data.csv')
 df.pop('Unnamed: 0')
