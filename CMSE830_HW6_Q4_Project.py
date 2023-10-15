@@ -19,6 +19,7 @@ st.title('Data Scientist Salaries')
 #col5.metric(label = 'Average Data Scientist', value = '125000', delta = int(value) - int(number))
 st.header('IDA')
 
+my_dataset = 'data.csv'
 def explore_data(dataset):
     df = pd.read_csv(os.path.join(dataset))
     return df
