@@ -35,8 +35,8 @@ def explore_data(data):
                           'seniority' : 'Seniority',
                          })
     #df['Title Simplified'].str.replace('Mle', 'MLE')
-    df['Min. Salary']*1000
-    #df['Max. Salary'] = df['Max. Salary']*1000
+    #df['Min. Salary']*1000
+    df['Max. Salary'] = df['Max. Salary']*1000
     #df['Avg. Salary'] = df['Avg. Salary']*1000
     return df
 
