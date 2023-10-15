@@ -6,7 +6,7 @@ import streamlit as st
 import os
 
 #titles
-st.title('Data Scientist Salaries')
+st.title('Draft')
 st.header('IDA')
 
 my_dataset = 'data.csv'
@@ -19,4 +19,4 @@ def explore_data(data):
 
 if st.checkbox('Preview Data'):
     data = explore_data(my_dataset)
-    st.table(df.head(my))
+    st.table(df.head())
