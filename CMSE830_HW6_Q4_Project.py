@@ -19,8 +19,10 @@ st.title('Data Scientist Salaries')
 #col5.metric(label = 'Average Data Scientist', value = '125000', delta = int(value) - int(number))
 st.header('IDA')
 
-
-df = pd.read_csv('/Users/sharodwilliams/CMSE830_Foundations_in_Data_Science/project/data.csv')
+def explore_data(dataset):
+    df = pd.read_csv(os.path.join(dataset))
+    return df
+#df = pd.read_csv('/Users/sharodwilliams/CMSE830_Foundations_in_Data_Science/project/data.csv')
 #df = pd.read_csv('https://github.com/will2724/CMSE830_Foundations_of_Data_Science/blob/main/data.csv')
 
 #def load_data(file_name):
