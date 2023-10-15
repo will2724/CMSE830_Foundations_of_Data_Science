@@ -20,7 +20,7 @@ st.title('Data Scientist Salaries')
 st.header('IDA')
 
 
-df = pd.read_csv('CMSE830_Foundations_of_Data_Science/data.csv')
+df = pd.read_csv('/Users/sharodwilliams/CMSE830_Foundations_in_Data_Science/project/data.csv')
 #df = pd.read_csv('https://github.com/will2724/CMSE830_Foundations_of_Data_Science/blob/main/data.csv')
 
 #def load_data(file_name):
