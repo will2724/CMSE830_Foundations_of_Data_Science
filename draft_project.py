@@ -12,12 +12,11 @@ st.header('IDA')
 my_dataset = 'data.csv'
 #load dataset
 @st.cache(persist=True)
-def explore_data(dataset):
-    df = pd.read_csv(os.path.join(dataset))
+def explore_data(data):
+    df = pd.read_csv(os.path.join(my_dataset))
     return df
 
 
-
 if st.checkbox('Preview Data'):
-    data = explore_data()
-    st.table(df.head())
+    data = explore_data(my_dataset)
+    st.table(df.head(my))
