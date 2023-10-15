@@ -29,7 +29,6 @@ def explore_data(dataset):
 #    df = pd.read_csv(file_name)
 #    return df
 
-
 #df.pop('Unnamed: 0')
 #age = [2023 - i  if i != -1 else i for i in df['Founded']]
 df = df.rename(columns = {'Type of ownership' : 'Type of Ownership',
