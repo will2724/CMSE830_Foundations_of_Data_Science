@@ -30,7 +30,7 @@ def explore_data(dataset):
 #    return df
 
 
-df.pop('Unnamed: 0')
+#df.pop('Unnamed: 0')
 #age = [2023 - i  if i != -1 else i for i in df['Founded']]
 df = df.rename(columns = {'Type of ownership' : 'Type of Ownership',
                       'min_salary' : 'Min. Salary',
