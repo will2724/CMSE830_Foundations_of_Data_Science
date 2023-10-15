@@ -25,7 +25,7 @@ if st.checkbox('Preview Data'):
 data_shape = st.radio('What is the dimension of:', ('Entire Dataset', 'Rows', 'Columns'))
 if data_shape == 'Entire Dataset':
     st.text('Entire Dataset Shown')
-    st.write(df.shape)
+    st.write(data.shape)
 elif data_shape == 'Rows':
     st.text('Rows Shown')
     st.write(data.shape[0])
