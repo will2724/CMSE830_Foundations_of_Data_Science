@@ -18,6 +18,6 @@ def explore_data(dataset):
 
 
 
-if st.checkbox('Preview Data')
+if st.checkbox('Preview Data'):
     data = explore_data()
     st.table(df.head())
