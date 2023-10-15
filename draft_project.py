@@ -22,10 +22,6 @@ if st.checkbox('Preview Data'):
     data = explore_data(my_dataset)
     st.table(data.head())
 
-if st.checkbox("Preview Data"):
-    data = explore_data(my_dataset)
-    st.table(data.head())
-
 if st.radio('What is the dimension of:', ('Entire Dataset', 'Rows', 'Columns')):
     data = explore_data(my_dataset)
     if data_shape == 'Entire':
