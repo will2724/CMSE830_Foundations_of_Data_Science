@@ -31,7 +31,7 @@ def explore_data(dataset):
 
 #df.pop('Unnamed: 0')
 #age = [2023 - i  if i != -1 else i for i in df['Founded']]
-df = df.rename(columns = {'Type of ownership' : 'Type of Ownership',
+#df = df.rename(columns = {'Type of ownership' : 'Type of Ownership',
                       'min_salary' : 'Min. Salary',
                       'max_salary' : 'Max. Salary',
                       'avg_salary' : 'Avg. Salary',
@@ -53,11 +53,11 @@ df = df.rename(columns = {'Type of ownership' : 'Type of Ownership',
 
                      })
 
-df['Title Simplified'] = df['Title Simplified'].str.replace('Mle', 'MLE')
+#df['Title Simplified'] = df['Title Simplified'].str.replace('Mle', 'MLE')
 
-df['Min. Salary'] = df['Min. Salary']*1000
-df['Max. Salary'] = df['Max. Salary']*1000
-df['Avg. Salary'] = df['Avg. Salary']*1000
+#df['Min. Salary'] = df['Min. Salary']*1000
+#df['Max. Salary'] = df['Max. Salary']*1000
+#df['Avg. Salary'] = df['Avg. Salary']*1000
 
 #Obtain dataset/show dataset
 preview = st.checkbox("Preview Data")
