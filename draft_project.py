@@ -22,7 +22,7 @@ if st.checkbox('Preview Data'):
     data = explore_data(my_dataset)
     st.table(data.head())
 
-data_shape = if st.radio('What is the dimension of:', ('Entire Dataset', 'Rows', 'Columns')):
+data_shape = st.radio('What is the dimension of:', ('Entire Dataset', 'Rows', 'Columns')):
     if data_shape == 'Entire Dataset':
         st.text('Entire Dataset Shown')
         st.write(data.shape)
