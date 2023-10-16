@@ -77,12 +77,9 @@ with tab3:
     )
     if option_box == 'Histograms':
         st.write('You selected to view Histograms'
-    option_hist = st.selectbox(
-    'Choose',
-    df_stats_cols
-    )
+        option_hist = st.selectbox('Choose', df_stats_cols)
     st.write('You selected:', option_hist)
-    plot = sns.histplot(df_stats[option])
+    plot = sns.histplot(df_stats[option_hist])
     st.pyplot(plot.get_figure())
 
     if option_box == 'Pairplot':
@@ -101,7 +98,7 @@ with tab3:
                 title = 'Jobs per State')
             st.pyplot(fig.update_layout(geo_scope = 'usa'))
             st.pyplot(plot.get_figure())
-        elif fig_map == 'Salaries💰 💳':
+        if fig_map == 'Salaries💰 💳':
             fig_salaries = px.choropleth(height = 800, width = 800,
                 locations= df.groupby('Job State')['Avg. Salary'].mean().index,
                 locationmode = 'USA-states',
@@ -111,7 +108,7 @@ with tab3:
                 title = 'Average Salary per State')
             plt.update_layout(geo_scope='usa')
             plt.show()
-        else:
+        if fig_map = Enjoyment 🎭':
             fig_rating = px.choropleth(height = 800, width = 800,
                 locations = df.groupby('Job State')['Rating'].mean().index,
                 locationmode = 'USA-states',
