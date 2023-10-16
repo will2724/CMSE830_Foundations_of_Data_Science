@@ -46,7 +46,7 @@ df_stats_cols = df_stats.columns
 #=====================================================================================
 
 # Sidebar with tabs
-tab1, tab2, tab3, tab4, tab5 = st.sidebar.beta_columns(5)
+tab1, tab2 , tab3 , tab4 ,tab5 = st.tabs(['IDA', 'Scaling','EDA','',''])
 with tab1:
     st.markdown('IDA')
     if st.checkbox('Preview Data'):
