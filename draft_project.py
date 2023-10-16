@@ -11,7 +11,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.preprocessing import MinMaxScaler
 
 
-tab1, tab2 , tab3 , tab4 ,tab5 = st.taps(['IDA', 'Scaling','EDA','',''])
+tab1, tab2 , tab3 , tab4 ,tab5 = st.tabs(['IDA', 'Scaling','EDA','',''])
 
 with tab1:
     st.markdown('IDA')
