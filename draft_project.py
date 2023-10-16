@@ -73,7 +73,12 @@ with tab2:
 with tab3:
     st.markdown('EDA')
 
-
+option_box = st.selectbox(
+st.subheader('What graphs are you inttered in viewing?'),
+('Histograms', 'Pairplot', 'Map'),
+index=None,
+placeholder='Choose an EDA method'
+)
     if option_box == 'Histograms':
         option_hist = st.selectbox('Choose', df_stats_cols)
         st.write('You selected:', option_hist)
