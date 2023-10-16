@@ -9,6 +9,8 @@ import os
 st.title('Draft')
 st.header('IDA')
 
+
+#load dataset
 df = pd.read_csv('data.csv')
 df.pop('Unnamed: 0')
 df['age'] = [2023 - i  if i != -1 else i for i in df['Founded']]
@@ -32,38 +34,26 @@ df = df.rename(columns = {'Type of ownership' : 'Type of Ownership',
                      'employer_provided' : 'Employer Provided',
                      'seniority' : 'Seniority',
                      })
-#my_dataset = 'data.csv'
-#load dataset
-
-
-    #df['Title Simplified'] = df['Title Simplified'].str.replace('Mle', 'MLE')
-    #df['Min. Salary'] = df['Min. Salary']*1000
-    #df['Max. Salary'] = df['Max. Salary']*1000
-    #df['Avg. Salary'] = df['Avg. Salary']*1000
-    return df
-
+df['Title Simplified'] = df['Title Simplified'].str.replace('Mle', 'MLE')
+df['Min. Salary'] = df['Min. Salary']*1000
+df['Max. Salary'] = df['Max. Salary']*1000
+df['Avg. Salary'] = df['Avg. Salary']*1000
 
 
 if st.checkbox('Preview Data'):
     st.table(df.head())
 
 
-
-
-
-
-
-
-#data_shape = st.radio('What is the dimension of:', ('Entire Dataset', 'Rows', 'Columns'))
-#if data_shape == 'Entire Dataset':
-#    st.text('Entire Dataset Shown')
-#    st.write(data.shape)
-#elif data_shape == 'Rows':
-#    st.text('Rows Shown')
-#    st.write(data.shape[0])
-#else:
-#    st.text('Columns Shown')
-#    st.write(data.shape[1])
+data_shape = st.radio('What is the dimension of:', ('Entire Dataset', 'Rows', 'Columns'))
+if data_shape == 'Entire Dataset':
+    st.text('Entire Dataset Shown')
+    st.write(df.shape)
+elif data_shape == 'Rows':
+    st.text('Rows Shown')
+    st.write(df.shape[0])
+else:
+    st.text('Columns Shown')
+    st.write(df.shape[1])
 
 #if st.button('Are there any NaNs in dataset?'):
 #    data = explore_data(my_dataset)
