@@ -10,32 +10,32 @@ st.title('Draft')
 st.header('IDA')
 
 df = pd.read_csv('data.csv')
-
+df.pop('Unnamed: 0')
+df['age'] = [2023 - i  if i != -1 else i for i in df['Founded']]
+df = df.rename(columns = {'Type of ownership' : 'Type of Ownership',
+                      'min_salary' : 'Min. Salary',
+                      'max_salary' : 'Max. Salary',
+                      'avg_salary' : 'Avg. Salary',
+                      'job_state' : 'Job State',
+                      'same_state' : 'Same State',
+                      'age' : 'Age',
+                      'python_yn' : 'Python Exp',
+                      'R_yn' : 'R Exp.',
+                      'spark' : 'Spark Exp.',
+                      'aws' : 'AWS Exp.',
+                      'excel' : 'Excel Exp.',
+                      'job_simp' : 'Title Simplified',
+                     'Headquarters' : 'HQ',
+                     'hourly' : 'Hourly',
+                     'desc_len' : 'Description Length',
+                     'num_comp' : '# of Competitors',
+                     'employer_provided' : 'Employer Provided',
+                     'seniority' : 'Seniority',
+                     })
 #my_dataset = 'data.csv'
 #load dataset
-@st.cache(persist=True)
-def explore_data(data):
-    df = pd.read_csv(os.path.join(my_dataset))
-    df.rename(columns = {'Type of ownership' : 'Type of Ownership',
-                          'min_salary' : 'Min. Salary',
-                          'max_salary' : 'Max. Salary',
-                          'avg_salary' : 'Avg. Salary',
-                          'job_state' : 'Job State',
-                          'same_state' : 'Same State',
-                          'age' : 'Age',
-                          'python_yn' : 'Python Exp',
-                          'R_yn' : 'R Exp.',
-                          'spark' : 'Spark Exp.',
-                          'aws' : 'AWS Exp.',
-                          'excel' : 'Excel Exp.',
-                          'job_simp' : 'Title Simplified',
-                          'Headquarters' : 'HQ',
-                          'hourly' : 'Hourly',
-                          'desc_len' : 'Description Length',
-                          'num_comp' : '# of Competitors',
-                          'employer_provided' : 'Employer Provided',
-                          'seniority' : 'Seniority',
-                         })
+
+
     #df['Title Simplified'] = df['Title Simplified'].str.replace('Mle', 'MLE')
     #df['Min. Salary'] = df['Min. Salary']*1000
     #df['Max. Salary'] = df['Max. Salary']*1000
