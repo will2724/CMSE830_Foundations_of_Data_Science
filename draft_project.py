@@ -48,6 +48,7 @@ with tab1:
     st.markdown('IDA')
     if st.checkbox('Preview Data'):
         st.table(df.head())
+
     data_shape = st.radio('What is the dimension of:', ('Entire Dataset', 'Rows', 'Columns'))
     if data_shape == 'Entire Dataset':
         st.text('Entire Dataset Shown')
@@ -58,6 +59,9 @@ with tab1:
     else:
         st.text('Columns Shown')
         st.write(df.shape[1])
+
+    if st.checkbox('Check for NaNs'):
+        st.write(df.isna().any())
 
 
 
