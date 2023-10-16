@@ -4,6 +4,10 @@ import re
 import seaborn as sns
 import streamlit as st
 import os
+import plotly.express as px
+import plotly.graph_objects as go
+from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import MinMaxScaler
 
 #titles
 st.title('Draft')
