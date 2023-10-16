@@ -45,8 +45,7 @@ def explore_data(data):
 
 
 if st.checkbox('Preview Data'):
-    data = explore_data(my_dataset)
-    st.table(data.head())
+    st.table(df.head())
 
 
 
