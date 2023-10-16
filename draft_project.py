@@ -77,10 +77,10 @@ with tab3:
     )
     if option_box == 'Histograms':
         st.write('You selected to view Histograms'
-        option_hist = st.selectbox(
-        'Choose',
-        df_stats_cols
-        )
+    option_hist = st.selectbox(
+    'Choose',
+    df_stats_cols
+    )
     st.write('You selected:', option_hist)
     plot = sns.histplot(df_stats[option])
     st.pyplot(plot.get_figure())
