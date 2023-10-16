@@ -12,7 +12,20 @@ from sklearn.preprocessing import MinMaxScaler
 
 #titles
 st.title('Draft')
-st.header('IDA')
+with st.sidebar:
+    selected = option_menu(
+        mm_title = 'Steps in my process',
+        options = ['IDA', 'Scaling','EDA'],
+        orientation="horizontal"
+        )
+
+if selected == 'IDA':
+    st.title(f'You have selected {selected}')
+if selected == 'Scaling':
+    st.title(f'You have selected {selected}')
+if selected == 'EDA':
+    st.title(f'You have selected {selected}')
+
 
 
 #load dataset
@@ -70,7 +83,7 @@ if fig_map == 'Oppurtunities 👩‍💻 🧑‍💻 👨‍💻':
         labels = {'color': 'Job Openings'},
         title = 'Jobs per State')
     st.write(fig.update_layout(geo_scope = 'usa'))
-    plt.show()
+    fig.show()
 elif fig_map == 'Salaries💰 💳':
     fig_salaries = px.choropleth(height = 800, width = 800,
         locations= df.groupby('Job State')['Avg. Salary'].mean().index,
