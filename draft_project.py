@@ -22,7 +22,7 @@ df = df.rename(columns = {'Type of ownership' : 'Type of Ownership',
                       'job_state' : 'Job State',
                       'same_state' : 'Same State',
                       'age' : 'Age',
-                      'python_yn' : 'Python Exp',
+                      'python_yn' : 'Python Exp.',
                       'R_yn' : 'R Exp.',
                       'spark' : 'Spark Exp.',
                       'aws' : 'AWS Exp.',
@@ -46,7 +46,7 @@ df_stats_cols = df_stats.columns
 #======================================================================================
 
 tab1, tab2 , tab3 , tab4 ,tab5 = st.tabs(['IDA', 'Scaling','EDA','',''])
-
+@st.cache
 with tab1:
     st.markdown('IDA')
     if st.checkbox('Preview Data'):
