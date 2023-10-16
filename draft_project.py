@@ -14,11 +14,9 @@ from sklearn.preprocessing import MinMaxScaler
 #titles
 st.title('Draft')
 with st.sidebar:
-    selected = option_menu(
-        mm_title = 'Steps in my process',
-        options = ['IDA', 'Scaling','EDA'],
-        orientation="horizontal"
-        )
+    selected = st.selectbox(
+    'which step', ['IDA', 'Scaling','EDA']
+    )
 
 if selected == 'IDA':
     st.title(f'You have selected {selected}')
