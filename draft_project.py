@@ -62,9 +62,9 @@ else:
 fig_map = st.radio("State-by-State,  What are you curious to explore?", ('Oppurtunities 👩‍💻 🧑‍💻 👨‍💻', 'Salaries💰 💳', 'Enjoyment 🎭'))
 if fig_map == 'Oppurtunities 👩‍💻 🧑‍💻 👨‍💻':
     fig_states = px.choropleth(height = 800, width = 800,
-        locations = df['job_state'].value_counts().index,
+        locations = df['Job State'].value_counts().index,
         locationmode = 'USA-states',
-        color = df['job_state'].value_counts(),
+        color = df['Job State'].value_counts(),
         color_continuous_scale = 'balance',
         labels = {'color': 'Job Openings'},
         title = 'Jobs per State')
@@ -72,9 +72,9 @@ if fig_map == 'Oppurtunities 👩‍💻 🧑‍💻 👨‍💻':
     fig.show()
 elif fig_map == 'Salaries💰 💳':
     fig_salaries = px.choropleth(height = 800, width = 800,
-        locations= df.groupby('job_state')['avg_salary'].mean().index,
+        locations= df.groupby('Job State')['Avg. Salary'].mean().index,
         locationmode = 'USA-states',
-        color = round(df.groupby('job_state')['avg_salary'].mean(), 2),
+        color = round(df.groupby('Job State')['Avg. Salary'].mean(), 2),
         color_continuous_scale = 'balance',
         labels = {'color':'Yearly Salary'},
         title = 'Average Salary per State')
@@ -82,9 +82,9 @@ elif fig_map == 'Salaries💰 💳':
     fig.show()
 else:
     fig_rating = px.choropleth(height = 800, width = 800,
-        locations = df.groupby('job_state')['Rating'].mean().index,
+        locations = df.groupby('Job State')['Rating'].mean().index,
         locationmode = 'USA-states',
-        color = round(df.groupby('job_state')['Rating'].mean(), 2),
+        color = round(df.groupby('Job State')['Rating'].mean(), 2),
         color_continuous_scale = 'balance',
         labels = {'color':'Employee Satisfaction Rating'},
         title = 'Employee Satisfaction Rating per State')
