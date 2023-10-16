@@ -1,18 +1,5 @@
-import numpy as np
-import pandas as pd
-import re
-import matplotlib.pyplot as plt
-import seaborn as sns
-import streamlit as st
-import os
-import plotly.express as px
-import plotly.graph_objects as go
-from sklearn.preprocessing import StandardScaler
-from sklearn.preprocessing import MinMaxScaler
-
-#=====================================================================================
-
 df = pd.read_csv('data.csv')
+df.pop('Unnamed: 0')
 df['age'] = [2023 - i  if i != -1 else i for i in df['Founded']]
 df = df.rename(columns = {'Type of ownership' : 'Type of Ownership',
                       'min_salary' : 'Min. Salary',
@@ -42,11 +29,10 @@ df['Avg. Salary'] = df['Avg. Salary']*1000
 df_stats = df.drop(['Unnamed: 0', 'Job Title', 'Salary Estimate', 'Job Description', 'Company Name', 'Location', 'HQ', 'Size', 'Type of Ownership', 'Industry', 'Sector', 'Revenue', 'Competitors',
        'Hourly', 'Employer Provided', 'company_txt', 'Job State', 'Same State', 'Title Simplified', 'Seniority', '# of Competitors'], axis=1)
 df_stats_cols = df_stats.columns
+#======================================================================================
 
-#=====================================================================================
-
-# Sidebar with tabs
 tab1, tab2 , tab3 , tab4 ,tab5 = st.tabs(['IDA', 'Scaling','EDA','',''])
+@st.cache
 with tab1:
     st.markdown('IDA')
     if st.checkbox('Preview Data'):
@@ -66,67 +52,57 @@ with tab1:
     if st.checkbox('Check for NaNs'):
         st.write(df.isna().any())
 
-with tab2:
-    st.markdown('Scaling')
 
-
+#have tab that can groupby job title and display salary of that title by state
 with tab3:
-    st.markdown('EDA')
-
-option_box = st.selectbox(
-st.subheader('What graphs are you inttered in viewing?'),
-('Histograms', 'Pairplot', 'Map'),
-index=None,
-placeholder='Choose an EDA method'
-)
+    option_box = st.selectbox(
+    st.subheader('What graphs are you inttered in viewing?'),
+    ('Histograms', 'Pairplot', 'Map'),
+    index=None,
+    placeholder='Choose an EDA method'
+    )
     if option_box == 'Histograms':
         option_hist = st.selectbox('Choose', df_stats_cols)
-        st.write('You selected:', option_hist)
-        plot = sns.histplot(df_stats[option_hist])
-        st.pyplot(plot.get_figure())
+    st.write('You selected:', option_hist)
+    plot = sns.histplot(df_stats[option_hist])
+    st.pyplot(plot.get_figure())
 
-    elif option_box == 'Pairplot':
-        st.write('You selected to view Pairplot')
-        st.pyplot(sns.pairplot(df[['Rating', 'Founded', 'Min. Salary', 'Max. Salary', 'Avg. Salary', 'Age', 'Description Length']]))
+    if option_box == 'Pairplot':
+        st.write('You selected to view Pairplot'
+        st.pyplot(sns.pairplot(df[Rating', 'Founded', 'Min. Salary', 'Max. Salary', 'Avg. Salary', 'Age', 'Description Length'].get_figure()))
 
-    elif option_box == 'Map':
-        fig_map = st.radio("State-by-State, What are you curious to explore?", ('Opportunities 🧑‍💻 ', 'Salaries💰', 'Enjoyment 🎭'))
-
-        if fig_map == 'Opportunities 🧑‍💻 ':
-            fig_states = px.choropleth_mapbox(
-                df['Job State'].value_counts(),
-                geojson=counties,
-                locations=df['Job State'].value_counts().index,
-                color=df['Job State'].value_counts(),
-                color_continuous_scale='balance',
-                labels={'color': 'Job Openings'},
-                title='Jobs per State'
-            )
-            st.plotly_chart(fig_states)
-
-        elif fig_map == 'Salaries💰':
-            fig_salaries = px.choropleth(
-                df.groupby('Job State')['Avg. Salary'].mean(),
-                locations=df.groupby('Job State')['Avg. Salary'].mean().index,
-                locationmode='USA-states',
-                color=round(df.groupby('Job State')['Avg. Salary'].mean(), 2),
-                color_continuous_scale='balance',
-                labels={'color': 'Yearly Salary'},
-                title='Average Salary per State'
-            )
-            st.plotly_chart(fig_salaries)
-
-        elif fig_map == 'Enjoyment 🎭':
-            fig_rating = px.choropleth(
-                df.groupby('Job State')['Rating'].mean(),
-                locations=df.groupby('Job State')['Rating'].mean().index,
-                locationmode='USA-states',
-                color=round(df.groupby('Job State')['Rating'].mean(), 2),
-                color_continuous_scale='balance',
-                labels={'color': 'Employee Satisfaction Rating'},
-                title='Employee Satisfaction Rating per State'
-            )
-            st.plotly_chart(fig_rating)
+    if option_box == 'Map':
+        fig_map = st.radio("State-by-State,  What are you curious to explore?", ('Oppurtunities 🧑‍💻 ', 'Salaries💰', 'Enjoyment 🎭'))
+        if fig_map == 'Oppurtunities 👩‍💻 🧑‍💻 👨‍💻':
+            fig_states = px.choropleth(height = 800, width = 800,
+                locations = df['Job State'].value_counts().index,
+                locationmode = 'USA-states',
+                color = df['Job State'].value_counts(),
+                color_continuous_scale = 'balance',
+                labels = {'color': 'Job Openings'},
+                title = 'Jobs per State')
+            st.pyplot(fig.update_layout(geo_scope = 'usa'))
+            st.pyplot(plot.get_figure())
+        if fig_map == 'Salaries💰 💳':
+            fig_salaries = px.choropleth(height = 800, width = 800,
+                locations= df.groupby('Job State')['Avg. Salary'].mean().index,
+                locationmode = 'USA-states',
+                color = round(df.groupby('Job State')['Avg. Salary'].mean(), 2),
+                color_continuous_scale = 'balance',
+                labels = {'color':'Yearly Salary'},
+                title = 'Average Salary per State')
+            fig.update_layout(geo_scope='usa')
+            fig.show()
+        if fig_map = Enjoyment 🎭':
+            fig_rating = px.choropleth(height = 800, width = 800,
+                locations = df.groupby('Job State')['Rating'].mean().index,
+                locationmode = 'USA-states',
+                color = round(df.groupby('Job State')['Rating'].mean(), 2),
+                color_continuous_scale = 'balance',
+                labels = {'color':'Employee Satisfaction Rating'},
+                title = 'Employee Satisfaction Rating per State')
+            fig.update_layout(geo_scope = 'usa')
+            fig.show()
 
 #if st.button('Are there any NaNs in dataset?'):
 #    data = explore_data(my_dataset)
