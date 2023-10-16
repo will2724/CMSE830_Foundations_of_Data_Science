@@ -69,7 +69,7 @@ if fig_map == 'Oppurtunities 👩‍💻 🧑‍💻 👨‍💻':
         color_continuous_scale = 'balance',
         labels = {'color': 'Job Openings'},
         title = 'Jobs per State')
-    plt.update_layout(geo_scope = 'usa')
+    st.write(fig.update_layout(geo_scope = 'usa'))
     plt.show()
 elif fig_map == 'Salaries💰 💳':
     fig_salaries = px.choropleth(height = 800, width = 800,
