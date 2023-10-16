@@ -10,19 +10,13 @@ import plotly.graph_objects as go
 from sklearn.preprocessing import StandardScaler
 from sklearn.preprocessing import MinMaxScaler
 
-#titles
-st.title('Draft')
-with st.sidebar:
-    selected = st.selectbox(
-    'which step', ['IDA', 'Scaling','EDA']
-    )
 
-if selected == 'IDA':
-    st.title(f'You have selected {selected}')
-if selected == 'Scaling':
-    st.title(f'You have selected {selected}')
-if selected == 'EDA':
-    st.title(f'You have selected {selected}')
+tab1, tab2 , tab3 , tab4 ,tab5 = st.taps(['IDA', 'Scaling','EDA','',''])
+
+with tab1:
+    st.markdown('IDA')
+    if st.checkbox('Preview Data'):
+        st.table(df.head())
 
 
 
@@ -56,8 +50,7 @@ df['Max. Salary'] = df['Max. Salary']*1000
 df['Avg. Salary'] = df['Avg. Salary']*1000
 
 
-if st.checkbox('Preview Data'):
-    st.table(df.head())
+
 
 
 data_shape = st.radio('What is the dimension of:', ('Entire Dataset', 'Rows', 'Columns'))
