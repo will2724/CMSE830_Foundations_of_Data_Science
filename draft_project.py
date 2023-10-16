@@ -47,9 +47,9 @@ if st.checkbox('Preview Data'):
     st.table(data.head())
 
 data_shape = st.radio('What is the dimension of:', ('Entire Dataset', 'Rows', 'Columns'))
-#if data_shape == 'Entire Dataset':
-#    st.text('Entire Dataset Shown')
-#    st.write(data.shape)
+if data_shape == 'Entire Dataset':
+    st.text('Entire Dataset Shown')
+    st.write(data.shape)
 #elif data_shape == 'Rows':
 #    st.text('Rows Shown')
 #    st.write(data.shape[0])
