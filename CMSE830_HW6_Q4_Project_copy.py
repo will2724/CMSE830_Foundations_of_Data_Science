@@ -19,7 +19,7 @@ st.title('Data Scientist Salaries')
 #col5.metric(label = 'Average Data Scientist', value = '125000', delta = int(value) - int(number))
 st.header('IDA')
 
-shrot_path = '/Users/sharodwilliams/Git:/CMSE830_Foundations_of_Data_Science'
+short_path = '/Users/sharodwilliams/Git:/CMSE830_Foundations_of_Data_Science'
 my_dataset = 'data.csv'
 def explore_data(dataset):
     df = pd.read_csv(os.path.join(dataset))

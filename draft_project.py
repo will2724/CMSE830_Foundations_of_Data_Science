@@ -9,7 +9,9 @@ import os
 st.title('Draft')
 st.header('IDA')
 
-my_dataset = 'data.csv'
+df = pd.read_csv('data.csv')
+
+#my_dataset = 'data.csv'
 #load dataset
 @st.cache(persist=True)
 def explore_data(data):
@@ -46,10 +48,17 @@ if st.checkbox('Preview Data'):
     data = explore_data(my_dataset)
     st.table(data.head())
 
-data_shape = st.radio('What is the dimension of:', ('Entire Dataset', 'Rows', 'Columns'))
-if data_shape == 'Entire Dataset':
-    st.text('Entire Dataset Shown')
-    st.write(data.shape)
+
+
+
+
+
+
+
+#data_shape = st.radio('What is the dimension of:', ('Entire Dataset', 'Rows', 'Columns'))
+#if data_shape == 'Entire Dataset':
+#    st.text('Entire Dataset Shown')
+#    st.write(data.shape)
 #elif data_shape == 'Rows':
 #    st.text('Rows Shown')
 #    st.write(data.shape[0])
