@@ -1,3 +1,17 @@
+import numpy as np
+import pandas as pd
+import re
+import seaborn as sns
+import streamlit as st
+import os
+import plotly.express as px
+import plotly.graph_objects as go
+from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import MinMaxScaler
+
+#======================================================================================
+
+
 df = pd.read_csv('data.csv')
 df.pop('Unnamed: 0')
 df['age'] = [2023 - i  if i != -1 else i for i in df['Founded']]
