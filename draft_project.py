@@ -53,12 +53,17 @@ df = df[df['Title Simplified'].apply(lambda x: str(x).lower() != 'nan')]
 df = df[df['Type of Ownership'].apply(lambda x: str(x).lower() != 'nan')]
 df.reset_index(drop=True, inplace=True)
 
+df_new = df.drop(['Salary Estimate', 'Job Description', 'Company Name', 'Size', 'Revenue',
+       'Hourly', 'Employer Provided', 'company_txt', 'Seniority', 'Description Length'], axis=1)
+df_stats = df_new.drop(['Python Exp.', 'R Exp.', 'AWS Exp.', 'Spark Exp.', 'Excel Exp.', 'Same State','Job Title', 'Location', 'HQ', 'Type of Ownership', 'Industry','Sector', 'Title Simplified' ], axis=1)
+
 df_cols = df.columns
 unique_col = {}
 for col in df.columns:
     unique_col[col] = df[col].unique()
 code_exp = df.groupby('Title Simplified')[['Python Exp.', 'R Exp.', 'Spark Exp.', 'AWS Exp.', 'Excel Exp.']].sum().drop_duplicates()
 
+#df_stats =
 #stat_cols = ['Rating', 'Founded', 'Min. Salary', 'Max. Salary', 'Avg_Salary']
 #df_stats = df.drop(['Job Title', 'Salary Estimate', 'Job Description', 'Company Name', 'Location', 'HQ', 'Size', 'Type of Ownership', 'Industry', 'Sector', 'Revenue', 'Competitors',
 #       'Hourly', 'Employer Provided', 'company_txt', 'Job State', 'Same State', 'Title Simplified', 'Seniority', '# of Competitors'], axis=1)
@@ -69,14 +74,42 @@ image = Image.open('1583217311227.png')
 
 
 tab1, tab2 , tab3, tab4 = st.tabs(['Description', 'Required Skills', 'Salary', 'Job Openings'])
-
+g = sns.PairGrid(df)
 with tab1:
-    st.image(image, width=850)
-    st.markdown("Data Science is a multifaceted field that involves deriving valuable insights and knowledge from data. It integrates various domains and methodologies to interpret data, solve complex problems, and aid decision-making. Here's an encompassing description of Data Science covering crucial aspects: Exploratory Data Analysis (EDA): Exploratory Data Analysis is the initial step in data analysis. It involves summarizing main characteristics of the data to better understand its structure, patterns, and potential issues. EDA includes visualizations, summary statistics, and techniques to uncover relationships within the dataset. 2. Statistics: Statistics plays a vital role in data science, encompassing concepts such as probability theory, hypothesis testing, regression analysis, and more. It helps in drawing meaningful conclusions, making predictions, and understanding uncertainty in the data. 3. Data Wrangling: Data wrangling involves cleaning, transforming, and organizing raw data into a suitable format for analysis. It includes tasks like handling missing values, data integration, data preprocessing, and feature engineering. 4. Data Visualization: Data Visualization is the art of presenting data in a graphical or visual format. It helps in conveying complex information in a simple and intuitive way. Effective visualization enables easier understanding and interpretation of data patterns and trends. 5. Linear Algebra: Linear Algebra forms the mathematical foundation for many machine learning algorithms. Concepts like vectors, matrices, and operations in linear algebra are fundamental in understanding various algorithms and models. 6. Machine Learning: Machine Learning involves designing algorithms and models that allow computers to learn from data and make predictions or decisions without being explicitly programmed. It comprises supervised learning, unsupervised learning, and reinforcement learning, each serving different purposes. 7. Optimization: Optimization is essential in machine learning for fine-tuning models and algorithms. It involves finding the best parameters or configurations to minimize or maximize an objective function, optimizing performance, and enhancing efficiency. Data Science brings all these elements together to extract knowledge and insights from vast amounts of data, enabling informed decision-making and driving innovation across various industries.)")
+    col1, col2 = st.columns(2)
+    with col1:
+        st.image(image, width=850)
+        st.markdown("Data Science is a multifaceted field that involves deriving valuable conclusions most often through the extrapolation from data. It integrates various domains and methodologies to interpret data, solve complex problems, and aid decision making. Despite in modern times, the debate as to whether the title of being called a Data Scientist is loosely used, the responsibilities usually don’t deviate far from covering crucial topics such as Exploratory Data Analysis (EDA), visualization, statistics, data wrangling, linear algebra, machine learning and optimization.")
+        st.markdown("Data wrangling takes raw data and goes through the process of cleaning, rearranging, transforming, the removal of missing values from the data and generates a more comprehensive analysis through the use of multiple coding languages. The ability to aid viewers in understanding trends not only through words and numbers while interpreting your data is key reason why Data Visualization is vital conveying complex information in an intuitive way. Effective visualization enables easier understanding and interpretation of data patterns and trends.")
+    with col2:
+        st.write("#")
+        st.write("#")
+        st.write("#")
+        st.write("#")
+        st.write("#")
+        st.write("#")
+        st.write("#")
+        st.header("Summary Statics of a dataset")
+        st.write(df.describe())
+        title = st.text_input('Example of data wrangling', "code_exp = df.groupby('Title Simplified')[['Python Exp.', 'R Exp.', 'Spark Exp.', 'AWS Exp.', 'Excel Exp.']].sum().drop_duplicates()", disabled=True)
+        st.write('This is a real life example')
 
+        data_shape = st.radio('What is the dimension of:', ('Entire Dataset', 'Rows', 'Columns'))
+        if data_shape == 'Entire Dataset':
+            st.text('Entire Dataset Shown')
+            st.write(df.shape)
+        elif data_shape == 'Rows':
+            st.text('Rows Shown')
+            st.write(df.shape[0])
+        else:
+            st.text('Columns Shown')
+            st.write(df.shape[1])
+        if st.checkbox('Check for NaNs'):
+            st.write(df.isna().any())
+        #st.plotly(sns.pairplot(data=df_stats_mask, corner=True, hue='Title Simplified'))
 
 with tab2:
-
+    st.markdown("Data wrangling takes raw data and goes through the process of cleaning, rearranging, transforming, the removal of missing values from the data and generates a more comprehensive analysis through the use of multiple coding languages. The ability to aid viewers in understanding trends not only through words and numbers while interpreting your data is key reason why Data Visualization is vital conveying complex information in an intuitive way. Effective visualization enables easier understanding and interpretation of data patterns and trends. ")
     def comparison_plot(df, x_column, y_column):
         fig = px.bar(df, x= x_column, y=y_column, color='Title Simplified', barmode='group')
         fig.update_layout(title= f'{x_column} Comparison', xaxis_title=x_column, yaxis_title='Coding Skills')
@@ -91,10 +124,6 @@ with tab2:
         st.warning("Please select an X-Axis column and a Y-Axis coding skill.")
     else:
         comparison_plot(df, selected_x_column, selected_y_column)
-
-
-
-
 
     #multi_sel_cols = ['Job State','Title Simplified', 'Type of Ownership', 'Min. Salary', 'Max. Salary', 'Avg. Salary', 'Age', 'Industry', 'Sector']
 
@@ -151,6 +180,7 @@ with tab3:
         st.plotly_chart(fig_rating.update_layout(geo_scope='usa'))
     #else:
 with tab4:
+
     st.table(df_notxt.head())
     if st.checkbox('View All Listings'):
         st.write(df)
