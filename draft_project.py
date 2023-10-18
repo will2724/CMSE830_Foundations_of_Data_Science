@@ -9,7 +9,7 @@ import plotly.express as px
 import plotly.graph_objects as go
 from sklearn.preprocessing import StandardScaler
 from sklearn.preprocessing import MinMaxScaler
-#from PIL import Image
+from PIL import Image
 
 df = pd.read_csv('data.csv')
 df.pop('Unnamed: 0')
