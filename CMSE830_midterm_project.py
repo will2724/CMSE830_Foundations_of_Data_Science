@@ -97,12 +97,12 @@ with tab1:
     We long gone past the time when we once lived where every action required user input and the view on how math subjects can be applicable outside of what is required while in school.  Thanks to every growing field on Artificial Intelligence (AI) and Machine Learning (ML) and the well renowned [article published in Harvard Business Review](https://hbr.org/2012/10/data-scientist-the-sexiest-job-of-the-21st-century) back in 2012, which called Data Science the sexiest job of the 21st century. As businesses continue to seek ways effectively access trends (from present data, reviewing trends from past data and accurately predicting future trends), satisfy the need of customers while operating in the most efficient way possible.
 
     It is widely known that pursing a career in Data Science can be rewarding in terms of income, while that may be the case as the great saying goes 'More money, more problems'. This purpose of this app will explore through the job listings from a Glassdoor back in 2016 and observe certain trends in salaries, location, satisfaction of a position, the abundance of positions and see how they all relate to one another.""")
-    col1, col2 = st.columns(2,gap='large')
-    with col1.expander("Mo Money, Mo Problems"):
-        st.video("https://www.youtube.com/watch?v=NmowYxzKr6o",start_time=0)
-    with col2.expander("Benjamins"):
-        st.video("https://www.youtube.com/watch?v=n4p9zpEY6l8",start_time=0)
-    st.write('#')
+    #col1, col2 = st.columns(2,gap='large')
+    #with col1.expander("Mo Money, Mo Problems"):
+    #    st.video("https://www.youtube.com/watch?v=NmowYxzKr6o",start_time=0)
+    #with col2.expander("Benjamins"):
+     #   st.video("https://www.youtube.com/watch?v=n4p9zpEY6l8",start_time=0)
+    #st.write('#')
 
 with tab2:
     st.title('Dataset Exploratation')
@@ -299,39 +299,6 @@ with tab4:
 with tab5:
     st.title('Conclusion')
     st.write('''Throughout the exploration of this dataset certain factors have been analyzed to support your journey as you try to find the data science position that is right for you. This process included reviewal of underlying commonalities in the listings, an evaluation of different visualizations was made to help make this easier, including the comparing and contrasting of the relationship agamous Salary, Employee Satisfaction and their Location. I plan to further investigate this dataset by conducting testing and training of the data, this will allow for better accurate imputation of the missing data.''')
-
-
-
-
-
-
-
-#
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
