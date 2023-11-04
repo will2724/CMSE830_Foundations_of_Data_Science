@@ -193,7 +193,7 @@ with tab2:
             st.plotly_chart(fig)
 
 with tab3:
-    col1, col2 = st.columns([3,1])
+    col1, col2 = st.columns([5,1])
     with col1:
         st.sidebar.write('#')
         st.sidebar.subheader('''Below you are able to use this selectbox for choosing between 3 different choropleth plots (maps).''')
