@@ -179,7 +179,7 @@ with tab2:
             st.plotly_chart(fig)
 
 with tab3:
-    col1, col2 = st.columns(5,1])
+    col1, col2 = st.columns([5,1])
 
     with col1:
         st.sidebar.write('#')
