@@ -6,6 +6,8 @@ import seaborn as sns
 import streamlit as st
 import plotly.express as px
 
+#=====================================================================================
+
 # Load data
 df = pd.read_csv('data.csv')
 df.pop('Unnamed: 0')
@@ -40,6 +42,8 @@ df['Avg. Salary'] = df['Avg. Salary']*1000
 df_stats = df.drop(['Unnamed: 0', 'Job Title', 'Salary Estimate', 'Job Description', 'Company Name', 'Location', 'HQ', 'Size', 'Type of Ownership', 'Industry', 'Sector', 'Revenue', 'Competitors',
        'Hourly', 'Employer Provided', 'company_txt', 'Job State', 'Same State', 'Title Simplified', 'Seniority', '# of Competitors'], axis=1)
 df_stats_cols = df_stats.columns
+
+#=====================================================================================
 
 # Sidebar with tabs
 tab1, tab2, tab3, tab4, tab5 = st.sidebar.beta_columns(5)
