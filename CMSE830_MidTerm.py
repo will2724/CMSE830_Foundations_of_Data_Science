@@ -89,7 +89,7 @@ st.set_page_config(page_title = 'Analysis of Data Scientist Openings',
 image = Image.open('1583217311227.png')
 st.image(image, width=1200)
 
-tab1, tab2, tab3, tab4, tab5 = st.tabs(['**Description**', '**Simple Data Review**', '**Deeper Review of Data**', '**Correlations**', '**Conclusion**'])
+tab1, tab2, tab3, tab4, tab5 = st.tabs(['**Description**', '**Simple Data Review**', '**Map Visualization**', '**Correlations**', '**Conclusion**'])
 
 with tab1:
     st.title('Overview')
@@ -97,112 +97,111 @@ with tab1:
     We long gone past the time when we once lived where every action required user input and the view on how math subjects can be applicable outside of what is required while in school.  Thanks to every growing field on Artificial Intelligence (AI) and Machine Learning (ML) and the well renowned [article published in Harvard Business Review](https://hbr.org/2012/10/data-scientist-the-sexiest-job-of-the-21st-century) back in 2012, which called Data Science the sexiest job of the 21st century. As businesses continue to seek ways effectively access trends (from present data, reviewing trends from past data and accurately predicting future trends), satisfy the need of customers while operating in the most efficient way possible.
 
     It is widely known that pursing a career in Data Science can be rewarding in terms of income, while that may be the case as the great saying goes 'More money, more problems'. This purpose of this app will explore through the job listings from a Glassdoor back in 2016 and observe certain trends in salaries, location, satisfaction of a position, the abundance of positions and see how they all relate to one another.""")
-    col1, col2 = st.columns(2,gap='large')
-    with col1.expander("Mo Money, Mo Problems"):
-        st.video("https://www.youtube.com/watch?v=NmowYxzKr6o",start_time=0)
-    with col2.expander("Benjamins"):
-        st.video("https://www.youtube.com/watch?v=n4p9zpEY6l8",start_time=0)
+#    col1, col2 = st.columns(2,gap='large')
+#    with col1.expander("Mo Money, Mo Problems"):
+#        st.video("https://www.youtube.com/watch?v=NmowYxzKr6o",start_time=0)
+#    with col2.expander("Benjamins"):
+#        st.video("https://www.youtube.com/watch?v=n4p9zpEY6l8",start_time=0)
     st.write('#')
 
 with tab2:
     st.title('Dataset Exploratation')
-    if st.checkbox('⬅️ Select box if you believe you want to pursue a career in Data Science', ):
-        col1, col2 = st.columns([4, 1])
-        with col1:
-            pursue_ds_career = st.radio('**How sure are you that you want to pursue a career in Data Science**', ['ehh maybe...', '**Very Certain❕**'], horizontal=True)
-            if pursue_ds_career == 'ehh maybe...':
-                st.write(df.head())
-                st.write('#')
-                st.subheader('Summary statistics of a ***few*** job postings')
-                st.write(df.head().describe())
-            else:
-                st.write(df)
-                st.write('#')
-                st.subheader('Summary statistics of **all** job postings')
-                st.write(df.describe())
-        with col2:
-            st.write('''
-            Founded: Year company was founded Job
-
-            State: The state where the job is located
-
-            Same State: An indicator of whether the job is in the same state as the person looking at the job
-
-            Age: The age of the person looking at the job
-
-            Python Exp.: An Indicator of whether the person looking at the job knows Python
-
-            R Exp.: An indicator of whether the person looking at the job knows R
-
-            Spark Exp.: An indicator of whether the person looking at the job knows Spark
-
-            AWS Exp.: An Indicator of whether the person looking at the job knows AWS
-
-            Excel Exp.: An indicator of whether the person looking at the job knows Excel
-
-            Title Simplified: A simplified job title
-
-            HQ: Location of Headquarters
-
-            Hourly: An indicator of whether the person will be paid hourly
-
-            Description Length: A count of total number of characters in the job posting
-
-            **MLE: Machine Learning Engineer''')
-
-
-        small_vis = st.radio('**Quick visuals**', ['Distributions', 'Coding Skillset'], horizontal=True)
-        if small_vis == 'Distributions':
-            lst = ['Rating', 'Size', 'Founded', 'Age', 'Type of Ownership', 'Sector', 'Revenue', 'Hourly', 'Title Simplified', 'Description Length', 'Job State']
-            #color_sel = st.sidebar.selectbox('Sorting Options', df.columns)
-            st.sidebar.subheader('''There were several features in this dataset, although I will not spend much time going through them in this web app, they can still be considered critical it ones decision a job search. See the select box below to view the distribution of those features.''')
-            sel = st.sidebar.selectbox('Select sorting option', lst, index=1)
-            if sel:
-                st.write('''Below you can observe the distributions of particular features that you may use to aid you in your process of which position would be right for you. One key thing I want to point out, because it will have an effect on the rest of the analysis is the bias in job openings for Data Scientist positions. Although it should be expected that there would not be as many DS position in comparison to a director role, there are roughly 66% more Data Science job openings than the next option.''')
-                color_mapping = {
-                    value: color
-                    for value, color in zip(df[sel].unique(), px.colors.qualitative.Set1)}
-                df['Color'] = df[sel].map(color_mapping)
-                fig = px.histogram(df, x=sel, color=sel)
-                fig.update_layout(xaxis=dict(showgrid=False), yaxis=dict(showgrid=False, title_text='Count'), title_text=f'Distribution for {sel}')
-                st.plotly_chart(fig, use_container_width=True)
+    col1, col2 = st.columns([4, 1])
+    with col1:
+        pursue_ds_career = st.radio('**How sure are you that you want to pursue a career in Data Science**', ['ehh maybe...', '**Very Certain❕**'], horizontal=True)
+        if pursue_ds_career == 'ehh maybe...':
+            st.write(df.head())
+            st.write('#')
+            st.subheader('Summary statistics of a ***few*** job postings')
+            st.write(df.head().describe())
         else:
-            code_exp = df.groupby('Title Simplified')[['Python Exp.', 'Spark Exp.', 'AWS Exp.', 'Excel Exp.']].sum().drop_duplicates()
-            st.sidebar.subheader('Now you can observe the distributions which coding languages were idenitifed in the job listing for each of the simplified job titles.')
-            code_sel = st.sidebar.selectbox('How does your coding experience help', code_exp.index)
-            selected_data = code_exp.loc[code_sel]
-            sorted_data = selected_data.sort_values()
-            colors = ['crimson' if x == sorted_data.min() else 'green' if x == sorted_data.max() else 'lightslategray' for x in sorted_data]
-            st.write('''
-            The data shows the experience in older languages, such as python and excel, are used more. Also, there are certain positions that require a knowledge in multiple skillsets.
-            The column which is green identifies the coding language that was identified most often, column which is red/no color identifies the coding language that was identified most often.
-            ''')
-            fig = go.Figure(data=[go.Bar(
-                x=sorted_data.index,
-                y=sorted_data,
-                marker_color=colors)])
-            fig.update_layout(xaxis=dict(showgrid=False, title_text=f'Coding Experience for {code_sel}'), yaxis=dict(showgrid=False, title_text='Count'), title_text=f'Distribution of Coding Skillset Required for {code_sel} Position')
-            st.plotly_chart(fig)
+            st.write(df)
+            st.write('#')
+            st.subheader('Summary statistics of **all** job postings')
+            st.write(df.describe())
+    with col2:
+        st.write('''
+        Founded: Year company was founded Job
+
+        State: The state where the job is located
+
+        Same State: An indicator of whether the job is in the same state as the person looking at the job
+
+        Age: The age of the person looking at the job
+
+        Python Exp.: An Indicator of whether the person looking at the job knows Python
+
+        R Exp.: An indicator of whether the person looking at the job knows R
+
+        Spark Exp.: An indicator of whether the person looking at the job knows Spark
+
+        AWS Exp.: An Indicator of whether the person looking at the job knows AWS
+
+        Excel Exp.: An indicator of whether the person looking at the job knows Excel
+
+        Title Simplified: A simplified job title
+
+        HQ: Location of Headquarters
+
+        Hourly: An indicator of whether the person will be paid hourly
+
+        Description Length: A count of total number of characters in the job posting
+
+        **MLE: Machine Learning Engineer''')
+
+
+    small_vis = st.radio('**Quick visuals**', ['Distributions', 'Coding Skillset'], horizontal=True)
+    if small_vis == 'Distributions':
+        lst = ['Rating', 'Size', 'Founded', 'Age', 'Type of Ownership', 'Sector', 'Revenue', 'Hourly', 'Title Simplified', 'Description Length', 'Job State']
+        #color_sel = st.sidebar.selectbox('Sorting Options', df.columns)
+        st.sidebar.title('''Fig. 1A: Distribution of Features''')
+        sel = st.sidebar.selectbox('Features', lst, index=1)
+        if sel:
+            st.write('''There were several features in this dataset, although I will not spend much time going through them in this web app, they can still be considered critical it ones decision a job search. See the select box below to view the distribution of those features. Below you can observe the distributions of particular features that you may use to aid you in your process of which position would be right for you. One key thing I want to point out, because it will have an effect on the rest of the analysis is the bias in job openings for Data Scientist positions. Although it should be expected that there would not be as many DS position in comparison to a director role, there are roughly 66% more Data Science job openings than the next option.''')
+            color_mapping = {
+                value: color
+                for value, color in zip(df[sel].unique(), px.colors.qualitative.Set1)}
+            df['Color'] = df[sel].map(color_mapping)
+            fig = px.histogram(df, x=sel, color=sel)
+            fig.update_layout(xaxis=dict(showgrid=False), yaxis=dict(showgrid=False, title_text='Count'), title_text=f'Distribution for {sel}')
+            st.plotly_chart(fig, use_container_width=True)
+            st.title('Fig. 1A: Distribution of Features')
+    else:
+        code_exp = df.groupby('Title Simplified')[['Python Exp.', 'Spark Exp.', 'AWS Exp.', 'Excel Exp.']].sum().drop_duplicates()
+        st.sidebar.title('''Fig. 1B: Distribution of Coding Skillset''')
+        code_sel = st.sidebar.selectbox('How does your coding experience help', code_exp.index)
+        selected_data = code_exp.loc[code_sel]
+        sorted_data = selected_data.sort_values()
+        colors = ['crimson' if x == sorted_data.min() else 'green' if x == sorted_data.max() else 'lightslategray' for x in sorted_data]
+        st.write('''
+        Now you can observe the distributions which coding languages were idenitifed in the job listing for each of the simplified job titles. The data shows the experience in older languages, such as python and excel, are used more. Also, there are certain positions that require a knowledge in multiple skillsets.
+        The column which is green identifies the coding language that was identified most often, column which is red/no color identifies the coding language that was identified most often.
+        ''')
+        fig = go.Figure(data=[go.Bar(
+            x=sorted_data.index,
+            y=sorted_data,
+            marker_color=colors)])
+        fig.update_layout(xaxis=dict(showgrid=False, title_text=f'Coding Experience for {code_sel}'), yaxis=dict(showgrid=False, title_text='Count'), title_text=f'Distribution of Coding Skillset Required for {code_sel} Position')
+        st.plotly_chart(fig)
+        st.title('''Fig. 1B: Distribution of Coding Skillset''')
 
 with tab3:
-    col1, col2 = st.columns([3,1])
-    with col1:
-        st.sidebar.write('#')
-        st.sidebar.subheader('''Below you are able to use this selectbox for choosing between 3 different choropleth plots (maps).''')
-        option_box = st.sidebar.selectbox('Choose',
-        ['Salaries💸', 'Job Satisfaction 🎭', 'Opportunities 👩‍💻 🧑‍💻 ‍'],
-        index=0,
-        placeholder="View Categories"
-        )
-        if option_box == 'Salaries💸':
+    col1, col2 = st.columns([5,1])
+    #title_options = ['Fig. 2A: Average Salary per State','Fig. 2B: Average Job Satisfaction Rating per State','Fig. 2C: Total Number of Job Openings per State']
+    st.sidebar.write('#')
+    #st.sidebar.title(f'{title_options[]}')
+    option_box = st.radio('Which map are you interested in viewing?',
+    ['Salaries💸', 'Job Satisfaction 🎭', 'Opportunities 👩‍💻 🧑‍💻 ‍'],horizontal=True)
+    if option_box == 'Salaries💸':
+        st.title('Fig. 2A: Average Salary per State')
+        with col1:
             st.subheader("""Now let's view the average salary within this dataset to see where """)
             fig_salaries = px.choropleth(height = 1000, width = 1000,
             locations= df.groupby('Job State')['Avg. Salary'].mean().round(2).index,
             locationmode = 'USA-states',
             color = df.groupby('Job State')['Avg. Salary'].mean().round(2),
             color_continuous_scale = 'solar',
-            labels = {'color':'Yearly Salary'},
-            title = 'Average Salary per State')
+            labels = {'color':'Yearly Salary'})
             st.plotly_chart(fig_salaries.update_layout(geo_scope='usa'))
             with col2:
                 st.write('#')
@@ -211,16 +210,16 @@ with tab3:
                 st.write('#')
                 st.write('#')
                 st.write('#')
-                st.write('''
-                Displayed is as a graph of the average salary in USD, per state, ranging from ~50k to ~135k''')
-        elif option_box == 'Job Satisfaction 🎭':
+                st.write('''Displayed is as a graph of the average salary in USD, per state, ranging from ~50k to ~135k''')
+    elif option_box == 'Job Satisfaction 🎭':
+        with col1:
+            st.title('''Fig. 2B: Average Job Satisfaction Rating per State''')
             fig_rating = px.choropleth(height = 1100, width = 1100,
             locations = df.groupby('Job State')['Rating'].mean().index,
             locationmode = 'USA-states',
             color = round(df.groupby('Job State')['Rating'].mean(), 2),
             color_continuous_scale = 'solar',
-            labels = {'color':'Employee Satisfaction Rating'},
-            title = 'Employee Satisfaction Rating per State')
+            labels = {'color':'Employee Satisfaction Rating'})
             st.plotly_chart(fig_rating.update_layout(geo_scope='usa'))
             with col2:
                 st.write('#')
@@ -230,14 +229,15 @@ with tab3:
                 st.write('#')
                 st.write('''
                 Displayed is the average satisfaction an employee in their position, this scale ranges from 1 to 5. (1 signifies complete dissatisfaction, 5 signifies absolute enjoyment in their position.)''')
-        elif option_box == 'Opportunities 👩‍💻 🧑‍💻 ‍':
+    elif option_box == 'Opportunities 👩‍💻 🧑‍💻 ‍':
+        st.title('''Fig. 2C: Total Number of Job Openings per State''')
+        with col1:
             fig_states = px.choropleth(height = 1000, width = 1000,
             locations = df['Job State'].value_counts().index,
             locationmode = 'USA-states',
             color = df['Job State'].value_counts(),
             color_continuous_scale = 'solar',
-            labels = {'color': 'Job Openings'},
-            title = 'Jobs per State')
+            labels = {'color': 'Job Openings'})
             st.plotly_chart(fig_states.update_layout(geo_scope='usa'))
             with col2:
                 st.write('#')
@@ -245,9 +245,8 @@ with tab3:
                 st.write('#')
                 st.write('#')
                 st.write('#')
-                st.write(''' Displayed is the total count of job listings in each state.
-                ''')
-    st.write("Let's review in the next tab how these 3 features relate to one another.")
+                st.write(''' Displayed is the total count of job listings in each state.''')
+#st.write("Let's review in the next tab how these 3 features relate to one another.")
 
 with tab4:
 
@@ -269,9 +268,10 @@ with tab4:
     df_tb.reset_index(drop=True, inplace=True)
     df_tb_rating = df_tb[df_tb['Mean Rating'] >= 4.0]
 
-    slider = st.select_slider('**Select:**', ['Top Salaies', 'Top Ratings','Best Overall'])
+    st.sidebar.title('Fig. 3: Correlations')
+    slider = st.sidebar.select_slider('**Select:**', ['Top Salaies', 'Top Ratings','Best Overall'])
     col1, col2 = st.columns([4,2])
-    st.sidebar.write('#')
+
     #st.sidebar.subheader('''Change between the average salary by state and average employee satisfaction rating by state to view the best and worse state given the selected category.''')
 
     with col1:
