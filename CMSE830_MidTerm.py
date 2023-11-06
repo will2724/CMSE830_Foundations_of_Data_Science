@@ -250,6 +250,7 @@ with tab3:
     st.write("Let's review in the next tab how these 3 features relate to one another.")
 
 with tab4:
+
     st.title('Correlation between Salary, Employee Satisfaction and their Location')
     job_count = df['Job State'].value_counts().reset_index()
     job_count.columns = ['Job State', 'Job Count']
@@ -266,39 +267,40 @@ with tab4:
 
     df_tb = df_tb.sort_values(by=['Mean Avg Salary', 'Mean Rating'], ascending=False)
     df_tb.reset_index(drop=True, inplace=True)
+    df_tb_rating = df_tb[df_tb['Mean Rating'] >= 4.0]
 
-    radio = st.radio('**Select**', ['Best', 'Worst'], horizontal=True)
+    slider = st.select_slider('**Select:**', ['Top Salaies', 'Top Ratings','Best Overall'])
+    col1, col2 = st.columns([4,2])
     st.sidebar.write('#')
-    st.sidebar.subheader('''Change between the average salary by state and average employee satisfaction rating by state to view the best and worse state given the selected category.''')
-    x_axis = st.sidebar.selectbox("Select x-axis data:", ['Ranking of Average Salary by State', 'Ranking of Employee Satisfaction by State Rating'] )
+    #st.sidebar.subheader('''Change between the average salary by state and average employee satisfaction rating by state to view the best and worse state given the selected category.''')
 
-    if radio == 'Best':
-        if x_axis == 'Ranking of Average Salary by State':
-            df_tb = df_tb.sort_values(by='Mean Avg Salary', ascending=False).head(10)
+    with col1:
+        if slider == 'Top Salaies':
+            df_tb = df_tb.sort_values(by='Mean Avg Salary', ascending=False).head().round(2)
             fig = px.scatter_3d(df_tb, x='Job Count', y='Mean Rating', z='Mean Avg Salary',
-                                color='Job State', title='10 Highest Paying Average Salary Correlation')
+                                color='Job State', title='5 Highest Paying Average Salary by State')
             with col2:
-                st.write('Displayed')
+                st.write(df_tb.head())
+        elif slider == 'Top Ratings':
+            df_tb = df_tb.sort_values(by='Mean Rating', ascending=False).head().round(2)
+            fig = px.scatter_3d(df_tb, x='Job Count', y='Mean Rating', z='Mean Avg Salary',
+                                color='Job State', title='5 Most Satisfied States Correlation')
+            with col2:
+                st.write(df_tb.head())
         else:
-            df_tb = df_tb.sort_values(by='Mean Rating', ascending=False).head(10)
-            fig = px.scatter_3d(df_tb, x='Job Count', y='Mean Rating', z='Mean Avg Salary',
-                                color='Job State', title='10 Most Satisfied States Correlation')
-    else:
-        if x_axis == 'Ranking of Employee Satisfaction by State Rating':
-            df_tb = df_tb.sort_values(by='Mean Rating', ascending=True).head(10)
-            fig = px.scatter_3d(df_tb, x='Job Count', y='Mean Rating', z='Mean Avg Salary',
-                                color='Job State', title='10 Least Satisfied States Correlation')
-        else:
-            df_tb = df_tb.sort_values(by='Mean Avg Salary', ascending=True).head(10)
-            fig = px.scatter_3d(df_tb, x='Job Count', y='Mean Rating', z='Mean Avg Salary',
-                                color='Job State', title='10 Lowest Paying Average Salary Correlation')
-    fig.update_traces(marker=dict(size=20))
-    fig.update_layout(width=900, height=900)
-    st.plotly_chart(fig)
+            df_tb_rating = df_tb_rating.round(2).head()
+            fig = px.scatter_3d(df_tb_rating, x='Job Count', y='Mean Rating', z='Mean Avg Salary',
+                                color='Job State', title='5 Most Satisfied States by State')
+            with col2:
+                st.write(df_tb_rating.head())
+
+        fig.update_traces(marker=dict(size=20))
+        fig.update_layout(width=900, height=900)
+        st.plotly_chart(fig)
 
 with tab5:
     st.title('Conclusion')
-    st.write('''Throughout the exploration of this dataset certain factors have been analyzed to support your journey as you try to find the data science position that is right for you. This process included reviewal of underlying commonalities in the listings, an evaluation of different visualizations was made to help make this easier, including the comparing and contrasting of the relationship agamous Salary, Employee Satisfaction and their Location. I plan to further investigate this dataset by conducting testing and training of the data, this will allow for better accurate imputation of the missing data.''')
+    st.write('''Throughout the exploration of this dataset certain factors have been analyzed to support your journey as you try to find the data science position that is right for you. It was also shown that the more money you make in a position equaites to having a higher level of happiness. This process included reviewal of underlying commonalities in the listings, an evaluation of different visualizations was made to help make this easier, including the comparing and contrasting of the relationship agamous Salary, Employee Satisfaction and their Location. I plan to further investigate this dataset by conducting testing and training of the data, this will allow for better accurate imputation of the missing data.''')
 
 
 

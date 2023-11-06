@@ -11,6 +11,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.preprocessing import MinMaxScaler
 from PIL import Image
 
+orig_df = pd.read_csv('data.csv')
 df = pd.read_csv('data.csv')
 df.pop('Unnamed: 0')
 df['age'] = [2023 - i  if i != -1 else i for i in df['Founded']]
@@ -93,7 +94,6 @@ with tab1:
         st.write(df.describe())
         title = st.text_input('Example of data wrangling', "code_exp = df.groupby('Title Simplified')[['Python Exp.', 'R Exp.', 'Spark Exp.', 'AWS Exp.', 'Excel Exp.']].sum().drop_duplicates()", disabled=True)
         st.write('This is a real life example')
-
         data_shape = st.radio('What is the dimension of:', ('Entire Dataset', 'Rows', 'Columns'))
         if data_shape == 'Entire Dataset':
             st.text('Entire Dataset Shown')
@@ -169,7 +169,7 @@ with tab3:
         labels = {'color':'Yearly Salary'},
         title = 'Average Salary per State')
         st.plotly_chart(fig_salaries.update_layout(geo_scope='usa'))
-    if option_box == 'Enjoyment 🎭':
+    if option_box == 'Job Satisfaction 🎭':
         fig_rating = px.choropleth(height = 800, width = 800,
         locations = df.groupby('Job State')['Rating'].mean().index,
         locationmode = 'USA-states',
@@ -180,7 +180,6 @@ with tab3:
         st.plotly_chart(fig_rating.update_layout(geo_scope='usa'))
     #else:
 with tab4:
-
     st.table(df_notxt.head())
     if st.checkbox('View All Listings'):
         st.write(df)

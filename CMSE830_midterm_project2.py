@@ -97,7 +97,12 @@ with tab1:
     We long gone past the time when we once lived where every action required user input and the view on how math subjects can be applicable outside of what is required while in school.  Thanks to every growing field on Artificial Intelligence (AI) and Machine Learning (ML) and the well renowned [article published in Harvard Business Review](https://hbr.org/2012/10/data-scientist-the-sexiest-job-of-the-21st-century) back in 2012, which called Data Science the sexiest job of the 21st century. As businesses continue to seek ways effectively access trends (from present data, reviewing trends from past data and accurately predicting future trends), satisfy the need of customers while operating in the most efficient way possible.
 
     It is widely known that pursing a career in Data Science can be rewarding in terms of income, while that may be the case as the great saying goes 'More money, more problems'. This purpose of this app will explore through the job listings from a Glassdoor back in 2016 and observe certain trends in salaries, location, satisfaction of a position, the abundance of positions and see how they all relate to one another.""")
-
+    col1, col2 = st.columns(2,gap='large')
+    with col1.expander("Mo Money, Mo Problems"):
+        st.video("https://www.youtube.com/watch?v=NmowYxzKr6o",start_time=0)
+    with col2.expander("Benjamins"):
+        st.video("https://www.youtube.com/watch?v=n4p9zpEY6l8",start_time=0)
+    st.write('#')
 
 with tab2:
     st.title('Dataset Exploratation')
@@ -145,6 +150,7 @@ with tab2:
 
             **MLE: Machine Learning Engineer''')
 
+
         small_vis = st.radio('**Quick visuals**', ['Distributions', 'Coding Skillset'], horizontal=True)
         if small_vis == 'Distributions':
             lst = ['Rating', 'Size', 'Founded', 'Age', 'Type of Ownership', 'Sector', 'Revenue', 'Hourly', 'Title Simplified', 'Description Length', 'Job State']
@@ -179,8 +185,7 @@ with tab2:
             st.plotly_chart(fig)
 
 with tab3:
-    col1, col2 = st.columns([5,1])
-
+    col1, col2 = st.columns([3,1])
     with col1:
         st.sidebar.write('#')
         st.sidebar.subheader('''Below you are able to use this selectbox for choosing between 3 different choropleth plots (maps).''')
@@ -245,6 +250,7 @@ with tab3:
     st.write("Let's review in the next tab how these 3 features relate to one another.")
 
 with tab4:
+
     st.title('Correlation between Salary, Employee Satisfaction and their Location')
     job_count = df['Job State'].value_counts().reset_index()
     job_count.columns = ['Job State', 'Job Count']
@@ -261,41 +267,40 @@ with tab4:
 
     df_tb = df_tb.sort_values(by=['Mean Avg Salary', 'Mean Rating'], ascending=False)
     df_tb.reset_index(drop=True, inplace=True)
+    df_tb_rating = df_tb[df_tb['Mean Rating'] >= 4.0]
 
-    radio = st.radio('**Select**', ['Best', 'Worst'], horizontal=True)
+    slider = st.select_slider('**Select:**', ['Top Salaies', 'Top Ratings','Best Overall'])
+    col1, col2 = st.columns([4,2])
     st.sidebar.write('#')
-    st.sidebar.subheader('''Change between the average salary by state and average employee satisfaction rating by state to view the best and worse state given the selected category.''')
-    x_axis = st.sidebar.selectbox("Select x-axis data:", ['Ranking of Average Salary by State', 'Ranking of Employee Satisfaction by State Rating'] )
+    #st.sidebar.subheader('''Change between the average salary by state and average employee satisfaction rating by state to view the best and worse state given the selected category.''')
 
-    if radio == 'Best':
-        if x_axis == 'Ranking of Average Salary by State':
-            df_tb = df_tb.sort_values(by='Mean Avg Salary', ascending=False).head(10)
+    with col1:
+        if slider == 'Top Salaies':
+            df_tb = df_tb.sort_values(by='Mean Avg Salary', ascending=False).head().round(2)
             fig = px.scatter_3d(df_tb, x='Job Count', y='Mean Rating', z='Mean Avg Salary',
-                                color='Job State', title='10 Highest Paying Average Salary Correlation')
+                                color='Job State', title='5 Highest Paying Average Salary by State')
             with col2:
-                st.write('Displayed')
+                st.write(df_tb.head())
+        elif slider == 'Top Ratings':
+            df_tb = df_tb.sort_values(by='Mean Rating', ascending=False).head().round(2)
+            fig = px.scatter_3d(df_tb, x='Job Count', y='Mean Rating', z='Mean Avg Salary',
+                                color='Job State', title='5 Most Satisfied States Correlation')
+            with col2:
+                st.write(df_tb.head())
         else:
-            df_tb = df_tb.sort_values(by='Mean Rating', ascending=False).head(10)
-            fig = px.scatter_3d(df_tb, x='Job Count', y='Mean Rating', z='Mean Avg Salary',
-                                color='Job State', title='10 Most Satisfied States Correlation')
-    else:
-        if x_axis == 'Ranking of Employee Satisfaction by State Rating':
-            df_tb = df_tb.sort_values(by='Mean Rating', ascending=True).head(10)
-            fig = px.scatter_3d(df_tb, x='Job Count', y='Mean Rating', z='Mean Avg Salary',
-                                color='Job State', title='10 Least Satisfied States Correlation')
-        else:
-            df_tb = df_tb.sort_values(by='Mean Avg Salary', ascending=True).head(10)
-            fig = px.scatter_3d(df_tb, x='Job Count', y='Mean Rating', z='Mean Avg Salary',
-                                color='Job State', title='10 Lowest Paying Average Salary Correlation')
-    fig.update_traces(marker=dict(size=20))
-    fig.update_layout(width=900, height=900)
-    st.plotly_chart(fig)
+            df_tb_rating = df_tb_rating.round(2).head()
+            fig = px.scatter_3d(df_tb_rating, x='Job Count', y='Mean Rating', z='Mean Avg Salary',
+                                color='Job State', title='5 Most Satisfied States by State')
+            with col2:
+                st.write(df_tb_rating.head())
+
+        fig.update_traces(marker=dict(size=20))
+        fig.update_layout(width=900, height=900)
+        st.plotly_chart(fig)
 
 with tab5:
     st.title('Conclusion')
-    st.write('''Throughout the exploration of this dataset certain factors have been analyzed to support your journey as you try to find the data science position that is right for you. This process included reviewal of underlying commonalities in the listings, an evaluation of different visualizations was made to help make this easier, including the comparing and contrasting of the relationship agamous Salary, Employee Satisfaction and their Location. I plan to further investigate this dataset by conducting testing and training of the data, this will allow for better accurate imputation of the missing data.''')
-
-
+    st.write('''Throughout the exploration of this dataset certain factors have been analyzed to support your journey as you try to find the data science position that is right for you. It was also shown that the more money you make in a position equaites to having a higher level of happiness. This process included reviewal of underlying commonalities in the listings, an evaluation of different visualizations was made to help make this easier, including the comparing and contrasting of the relationship agamous Salary, Employee Satisfaction and their Location. I plan to further investigate this dataset by conducting testing and training of the data, this will allow for better accurate imputation of the missing data.''')
 
 
 
