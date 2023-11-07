@@ -119,7 +119,7 @@ with tab2:
             st.write('#')
             st.subheader('Summary statistics of **all** job postings')
             st.write(df.describe())
-          
+
     with col2:
         st.write('''
         Founded: Year company was founded Job
@@ -258,7 +258,6 @@ with tab3:
 #st.write("Let's review in the next tab how these 3 features relate to one another.")
 
 with tab4:
-
     st.title('Correlation between Salary, Employee Satisfaction and their Location')
     job_count = df['Job State'].value_counts().reset_index()
     job_count.columns = ['Job State', 'Job Count']
