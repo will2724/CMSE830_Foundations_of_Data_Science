@@ -119,6 +119,7 @@ with tab2:
             st.write('#')
             st.subheader('Summary statistics of **all** job postings')
             st.write(df.describe())
+          
     with col2:
         st.write('''
         Founded: Year company was founded Job
@@ -152,20 +153,28 @@ with tab2:
 
     small_vis = st.radio('**Quick visuals**', ['Distributions', 'Coding Skillset'], horizontal=True)
     if small_vis == 'Distributions':
-        lst = ['Rating', 'Size', 'Founded', 'Age', 'Type of Ownership', 'Sector', 'Revenue', 'Hourly', 'Title Simplified', 'Description Length', 'Job State']
-        #color_sel = st.sidebar.selectbox('Sorting Options', df.columns)
-        st.sidebar.title('''Fig. 1A: Distribution of Features''')
-        sel = st.sidebar.selectbox('Features', lst, index=1)
-        if sel:
-            st.write('''There were several features in this dataset, although I will not spend much time going through them in this web app, they can still be considered critical it ones decision a job search. See the select box below to view the distribution of those features. Below you can observe the distributions of particular features that you may use to aid you in your process of which position would be right for you. One key thing I want to point out, because it will have an effect on the rest of the analysis is the bias in job openings for Data Scientist positions. Although it should be expected that there would not be as many DS position in comparison to a director role, there are roughly 66% more Data Science job openings than the next option.''')
-            color_mapping = {
-                value: color
-                for value, color in zip(df[sel].unique(), px.colors.qualitative.Set1)}
-            df['Color'] = df[sel].map(color_mapping)
-            fig = px.histogram(df, x=sel, color=sel)
-            fig.update_layout(xaxis=dict(showgrid=False), yaxis=dict(showgrid=False, title_text='Count'), title_text=f'Distribution for {sel}')
-            st.plotly_chart(fig, use_container_width=True)
-            st.title('Fig. 1A: Distribution of Features')
+        st.write('''
+        The message mentions that there is a bias in job openings, specifically in the context of Data Scientist positions and the type of ownership field being a private company. This suggests that there might be more job openings for Data Scientists in private companies compared to other roles. It can be seen that there are roughly 66% more Data Science job openings than the next option. This indicates that Data Scientist roles are abundant in the dataset.''')
+        col1, col2 = st.columns(2)
+        with col1:
+            lst = ['Rating', 'Size', 'Founded', 'Age', 'Type of Ownership', 'Sector', 'Revenue', 'Title Simplified', 'Job State']
+            #color_sel = st.sidebar.selectbox('Sorting Options', df.columns)
+            st.sidebar.title('''Fig. 1A: Distribution of Features''')
+            sel = st.sidebar.selectbox('Features', sorted(lst), index=7)
+
+            if sel:
+                color_mapping = {
+                    value: color
+                    for value, color in zip(df[sel].unique(), px.colors.qualitative.Set1)}
+                df['Color'] = df[sel].map(color_mapping)
+                fig = px.histogram(df, x=sel, color=sel)
+                fig.update_layout(xaxis=dict(showgrid=False), yaxis=dict(showgrid=False, title_text='Count'), title_text=f'Distribution for {sel}')
+                st.plotly_chart(fig, use_container_width=True)
+                st.title('Fig. 1A: Distribution of Features')
+                with col2:
+                    fig_pie = px.pie(df, names=sel, title=f'Pie chart for {sel}')
+                    fig_pie.update_traces(textposition='inside', textinfo='percent+label')
+                    st.plotly_chart(fig_pie)
     else:
         code_exp = df.groupby('Title Simplified')[['Python Exp.', 'Spark Exp.', 'AWS Exp.', 'Excel Exp.']].sum().drop_duplicates()
         st.sidebar.title('''Fig. 1B: Distribution of Coding Skillset''')
