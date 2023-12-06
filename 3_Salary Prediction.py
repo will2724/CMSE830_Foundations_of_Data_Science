@@ -166,8 +166,11 @@ def predict_salary(job_title, comp_size, ownership_type, sector, job_state):
 
 # Using the prediction function in Streamlit
 if st.button("Predict Salary"):
+    image2 = Image.open('MicrosoftTeams-image.png')
     predicted_salary = predict_salary(job_title, comp_size, top, pick_sector, work_loc)
     st.write(f"Predicted Salary: ${predicted_salary:,.2f}")
+    st.image(image2, width=300)
+
 
 
 
