@@ -159,7 +159,7 @@ with tab2:
         with col1:
             lst = ['Rating', 'Size', 'Founded', 'Age', 'Type of Ownership', 'Sector', 'Revenue', 'Title Simplified', 'Job State']
             #color_sel = st.sidebar.selectbox('Sorting Options', df.columns)
-            st.sidebar.title('''Fig. 1A: Distribution of Features''')
+            st.sidebar.title('''Fig. 1A & 1B: Distribution of Features''')
             sel = st.sidebar.selectbox('Features', sorted(lst), index=7)
 
             if sel:
@@ -168,13 +168,15 @@ with tab2:
                     for value, color in zip(df[sel].unique(), px.colors.qualitative.Set1)}
                 df['Color'] = df[sel].map(color_mapping)
                 fig = px.histogram(df, x=sel, color=sel)
-                fig.update_layout(xaxis=dict(showgrid=False), yaxis=dict(showgrid=False, title_text='Count'), title_text=f'Distribution for {sel}')
+                fig.update_layout(xaxis=dict(showgrid=False), yaxis=dict(showgrid=False, title_text='Count'))
                 st.plotly_chart(fig, use_container_width=True)
-                st.title('Fig. 1A: Distribution of Features')
+                st.title(f'Fig. 1A: Distribution for {sel}')
                 with col2:
                     fig_pie = px.pie(df, names=sel, title=f'Pie chart for {sel}')
                     fig_pie.update_traces(textposition='inside', textinfo='percent+label')
                     st.plotly_chart(fig_pie)
+                    st.title(f'Fig. 1B: Percentage for {sel}')
+
     else:
         code_exp = df.groupby('Title Simplified')[['Python Exp.', 'Spark Exp.', 'AWS Exp.', 'Excel Exp.']].sum().drop_duplicates()
         st.sidebar.title('''Fig. 1B: Distribution of Coding Skillset''')
@@ -192,17 +194,17 @@ with tab2:
             marker_color=colors)])
         fig.update_layout(xaxis=dict(showgrid=False, title_text=f'Coding Experience for {code_sel}'), yaxis=dict(showgrid=False, title_text='Count'), title_text=f'Distribution of Coding Skillset Required for {code_sel} Position')
         st.plotly_chart(fig)
-        st.title('''Fig. 1B: Distribution of Coding Skillset''')
+        st.title('''Fig. 2: Distribution of Coding Skillset''')
 
 with tab3:
     col1, col2 = st.columns([5,1])
     #title_options = ['Fig. 2A: Average Salary per State','Fig. 2B: Average Job Satisfaction Rating per State','Fig. 2C: Total Number of Job Openings per State']
-    st.sidebar.write('#')
+    st.sidebar.title('Fig. 3: Maps')
     #st.sidebar.title(f'{title_options[]}')
-    option_box = st.radio('Which map are you interested in viewing?',
-    ['Salaries💸', 'Job Satisfaction 🎭', 'Opportunities 👩‍💻 🧑‍💻 ‍'],horizontal=True)
+    option_box = st.sidebar.selectbox('Which map are you interested in viewing?',
+    ['Salaries💸', 'Job Satisfaction 🎭', 'Opportunities 👩‍💻 🧑‍💻 ‍'])
     if option_box == 'Salaries💸':
-        st.title('Fig. 2A: Average Salary per State')
+        st.title('Fig. 3A: Average Salary per State')
         with col1:
             st.subheader("""Now let's view the average salary within this dataset to see where """)
             fig_salaries = px.choropleth(height = 1000, width = 1000,
@@ -220,9 +222,10 @@ with tab3:
                 st.write('#')
                 st.write('#')
                 st.write('''Displayed is as a graph of the average salary in USD, per state, ranging from ~50k to ~135k''')
+
     elif option_box == 'Job Satisfaction 🎭':
         with col1:
-            st.title('''Fig. 2B: Average Job Satisfaction Rating per State''')
+            st.title('''Fig. 3B: Average Job Satisfaction Rating per State''')
             fig_rating = px.choropleth(height = 1100, width = 1100,
             locations = df.groupby('Job State')['Rating'].mean().index,
             locationmode = 'USA-states',
@@ -238,8 +241,9 @@ with tab3:
                 st.write('#')
                 st.write('''
                 Displayed is the average satisfaction an employee in their position, this scale ranges from 1 to 5. (1 signifies complete dissatisfaction, 5 signifies absolute enjoyment in their position.)''')
+
     elif option_box == 'Opportunities 👩‍💻 🧑‍💻 ‍':
-        st.title('''Fig. 2C: Total Number of Job Openings per State''')
+        st.title('''Fig. 3C: Total Number of Job Openings per State''')
         with col1:
             fig_states = px.choropleth(height = 1000, width = 1000,
             locations = df['Job State'].value_counts().index,
@@ -276,7 +280,7 @@ with tab4:
     df_tb.reset_index(drop=True, inplace=True)
     df_tb_rating = df_tb[df_tb['Mean Rating'] >= 4.0]
 
-    st.sidebar.title('Fig. 3: Correlations')
+    st.sidebar.title('Fig. 4: Correlations')
     slider = st.sidebar.select_slider('**Select:**', ['Top Salaies', 'Top Ratings','Best Overall'])
     col1, col2 = st.columns([4,2])
 
@@ -305,6 +309,7 @@ with tab4:
         fig.update_traces(marker=dict(size=20))
         fig.update_layout(width=900, height=900)
         st.plotly_chart(fig)
+
 
 with tab5:
     st.title('Conclusion')
