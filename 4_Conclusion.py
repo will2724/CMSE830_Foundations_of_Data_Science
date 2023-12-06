@@ -22,3 +22,4 @@ techniques to solve community problems, furthering my professional development t
 completing projects, while working independently and collaboratively as a data scientist/bioinformatician.''')
 
 
+#streamlit option meanise
