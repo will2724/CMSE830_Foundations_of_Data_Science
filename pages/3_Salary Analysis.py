@@ -11,7 +11,6 @@ st.image(image, width=600)
 
 ##################################################################################################################################################################################################################################################################################
 
-
 import numpy as np
 import pandas as pd
 pd.set_option('display.max_columns',34)
@@ -77,15 +76,7 @@ df_orig = df
 df = df.loc[(df['Age'] >= 18) & (df['Age'] <= 120)]
 df = df[df['Min. Salary'] > 30000]
 
-df = df.dropna(axis=0)
-col1, col2 = st.columns([4, 2])
-with col1:
-    with st.expander('**View Data**'):
-        st.write(df)
-        with col2:
-            with st.expander('**View Data**'):
-                st.subheader('Summary Statistics of Job Postings')
-                st.write(df.describe())
+###############################################################################################################################################
     
 
 col1, col2 = st.columns([4,2])
