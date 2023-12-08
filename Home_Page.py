@@ -1,8 +1,31 @@
 import streamlit as st
+from streamlit_option_menu import option_menu
+
 from PIL import Image
-st.set_page_config(page_title = 'Analysis of Data Scientist Openings',
-                   page_icon = '💰',
-                   layout='wide')
+#########################################################################################################
+with st.sidebar: 
+    selected = option_menu(
+        menu_title="Menu",
+        options=['EDA🚀', 'Salary Analysis', 'Salary Prediction🎱', 'Conclusion','About Me']
+    )
+
+if selected == 'EDA🚀':
+    st.title('Exploratior Data Analysis')
+
+if selected == 'Salary Analysis':
+    st.title('Salary Analysis')
+
+if selected == 'Salary Prediction🎱':
+    st.title('')
+
+if selected == 'Conclusion':
+    st.title('Conclusion')
+
+if selected == 'About Me':
+    st.title('YOOOO')
+
+
+#st.set_page_config(page_title = 'Analysis of Data Scientist Openings', page_icon = '💰', layout='wide')
 
 image = Image.open('image2.png')
 st.image(image, width=800)
