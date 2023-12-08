@@ -1,3 +1,4 @@
+#page set-up
 import streamlit as st
 from PIL import Image
 st.set_page_config(page_title = 'Analysis of Data Scientist Openings',
@@ -9,18 +10,70 @@ st.image(image, width=600)
 
 
 ##################################################################################################################################################################################################################################################################################
-
+#importing libraries and data
 import numpy as np
 import pandas as pd
 pd.set_option('display.max_columns',34)
 import matplotlib.pyplot as plt
 import seaborn as sns
 import streamlit as st
-#from st_pages import Page, show_pages, add_page_title
+from st_pages import Page, show_pages, add_page_title
 import plotly.express as px
 import plotly.graph_objects as go
 
+data = pd.read_csv('data.csv')
+data.pop('Unnamed: 0')
+data = data.rename(columns = {'Type of ownership' : 'Type of Ownership',
+                      'min_salary' : 'Min. Salary',
+                      'max_salary' : 'Max. Salary',
+                      'avg_salary' : 'Avg. Salary',
+                      'job_state' : 'Job State',
+                      'same_state' : 'Same State',
+                      'age' : 'Age',
+                      'python_yn' : 'Python Exp.',
+                      'R_yn' : 'R Exp.',
+                      'spark' : 'Spark Exp.',
+                      'aws' : 'AWS Exp.',
+                      'excel' : 'Excel Exp.',
+                      'job_simp' : 'Title Simplified',
+                     'Headquarters' : 'HQ',
+                     'hourly' : 'Hourly',
+                     'desc_len' : 'Description Length',
+                     'num_comp' : '# of Competitors',
+                     'employer_provided' : 'Employer Provided',
+                     'seniority' : 'Seniority',
+                     })
+data.pop('R Exp.')
+data['Title Simplified'] = data['Title Simplified'].str.title()
+data['Title Simplified'] = data['Title Simplified'].str.replace('Mle', 'MLE')
+data['Min. Salary'] = data['Min. Salary']*1000
+data['Max. Salary'] = data['Max. Salary']*1000
+data['Avg. Salary'] = data['Avg. Salary']*1000
+data.replace({"Na": np.nan, "NaN": np.nan, "-1": np.nan, "Unknown / Non-Applicable": np.nan}, inplace=True)
+data = data.drop(['Competitors', '# of Competitors'], axis=1)
+data['Type of Ownership'] = data['Type of Ownership'].replace('Unknown', 'Na')
+data_orig = data
+columns_to_drop = ['Seniority' , 'Job Title', 'Salary Estimate', 'Job Description', 'Company Name', 'Location', 'HQ', 'Industry', 'Hourly', 'Same State', 'Seniority', 'Employer Provided', 'company_txt']
+
+df = data.drop(columns=columns_to_drop)
+df_orig = df
+
+#removing data
+df = df.loc[(df['Age'] >= 18) & (df['Age'] <= 120)]
+df = df[df['Min. Salary'] > 30000]
+df = df.dropna(axis=0)
 ##################################################################################################################################################################################################################################################################################
+
+
+col1, col2 = st.columns([4, 2])
+with col1:
+    with st.expander('**View Data**'):
+        st.write(df)
+        with col2:
+            with st.expander('**View Data**'):
+                st.subheader('Summary Statistics of Job Postings')
+                st.write(df.describe())
+
 tab1, tab2, tab3, tab4, tab5 = st.tabs(['**Description**', '**Simple Data Review**', '**Map Visualization**', '**Correlations**', '**Conclusion**'])
 
 with tab2:
