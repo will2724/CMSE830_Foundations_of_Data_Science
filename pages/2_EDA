@@ -1,0 +1,114 @@
+import streamlit as st
+from PIL import Image
+st.set_page_config(page_title = 'Analysis of Data Scientist Openings',
+                   page_icon = '💰',
+                   layout='wide')
+
+image = Image.open('image2.png')
+st.image(image, width=600)
+
+
+##################################################################################################################################################################################################################################################################################
+
+
+import numpy as np
+import pandas as pd
+pd.set_option('display.max_columns',34)
+import matplotlib.pyplot as plt
+import seaborn as sns
+import streamlit as st
+#from st_pages import Page, show_pages, add_page_title
+import plotly.express as px
+import plotly.graph_objects as go
+
+
+
+
+with tab2:
+st.title('Dataset Exploratation')
+col1, col2 = st.columns([4, 1])
+with col1:
+    pursue_ds_career = st.radio('**How sure are you that you want to pursue a career in Data Science**', ['ehh maybe...', '**Very Certain❕**'], horizontal=True)
+    if pursue_ds_career == 'ehh maybe...':
+        st.write(df.head())
+        st.write('#')
+        st.subheader('Summary statistics of a ***few*** job postings')
+        st.write(df.head().describe())
+    else:
+        st.write(df)
+        st.write('#')
+        st.subheader('Summary statistics of **all** job postings')
+        st.write(df.describe())
+with col2:
+    st.write('''
+    Founded: Year company was founded Job
+
+    State: The state where the job is located
+
+    Same State: An indicator of whether the job is in the same state as the person looking at the job
+
+    Age: The age of the person looking at the job
+
+    Python Exp.: An Indicator of whether the person looking at the job knows Python
+
+    R Exp.: An indicator of whether the person looking at the job knows R
+
+    Spark Exp.: An indicator of whether the person looking at the job knows Spark
+
+    AWS Exp.: An Indicator of whether the person looking at the job knows AWS
+
+    Excel Exp.: An indicator of whether the person looking at the job knows Excel
+
+    Title Simplified: A simplified job title
+
+    HQ: Location of Headquarters
+
+    Hourly: An indicator of whether the person will be paid hourly
+
+    Description Length: A count of total number of characters in the job posting
+
+    **MLE: Machine Learning Engineer''')
+
+
+small_vis = st.radio('**Quick visuals**', ['Distributions', 'Coding Skillset'], horizontal=True)
+if small_vis == 'Distributions':
+    st.write('''
+    The message mentions that there is a bias in job openings, specifically in the context of Data Scientist positions and the type of ownership field being a private company. This suggests that there might be more job openings for Data Scientists in private companies compared to other roles. It can be seen that there are roughly 66% more Data Science job openings than the next option. This indicates that Data Scientist roles are abundant in the dataset.''')
+    col1, col2 = st.columns(2)
+    with col1:
+        lst = ['Rating', 'Size', 'Founded', 'Age', 'Type of Ownership', 'Sector', 'Revenue', 'Title Simplified', 'Job State']
+        #color_sel = st.sidebar.selectbox('Sorting Options', df.columns)
+        st.sidebar.title('''Fig. 1A: Distribution of Features''')
+        sel = st.sidebar.selectbox('Features', sorted(lst), index=7)
+
+        if sel:
+            color_mapping = {
+                value: color
+                for value, color in zip(df[sel].unique(), px.colors.qualitative.Set1)}
+            df['Color'] = df[sel].map(color_mapping)
+            fig = px.histogram(df, x=sel, color=sel)
+            fig.update_layout(xaxis=dict(showgrid=False), yaxis=dict(showgrid=False, title_text='Count'), title_text=f'Distribution for {sel}')
+            st.plotly_chart(fig, use_container_width=True)
+            st.title('Fig. 1A: Distribution of Features')
+            with col2:
+                fig_pie = px.pie(df, names=sel, title=f'Pie chart for {sel}')
+                fig_pie.update_traces(textposition='inside', textinfo='percent+label')
+                st.plotly_chart(fig_pie)
+else:
+    code_exp = df.groupby('Title Simplified')[['Python Exp.', 'Spark Exp.', 'AWS Exp.', 'Excel Exp.']].sum().drop_duplicates()
+    st.sidebar.title('''Fig. 1B: Distribution of Coding Skillset''')
+    code_sel = st.sidebar.selectbox('How does your coding experience help', code_exp.index)
+    selected_data = code_exp.loc[code_sel]
+    sorted_data = selected_data.sort_values()
+    colors = ['crimson' if x == sorted_data.min() else 'green' if x == sorted_data.max() else 'lightslategray' for x in sorted_data]
+    st.write('''
+    Now you can observe the distributions which coding languages were idenitifed in the job listing for each of the simplified job titles. The data shows the experience in older languages, such as python and excel, are used more. Also, there are certain positions that require a knowledge in multiple skillsets.
+    The column which is green identifies the coding language that was identified most often, column which is red/no color identifies the coding language that was identified most often.
+    ''')
+    fig = go.Figure(data=[go.Bar(
+        x=sorted_data.index,
+        y=sorted_data,
+        marker_color=colors)])
+    fig.update_layout(xaxis=dict(showgrid=False, title_text=f'Coding Experience for {code_sel}'), yaxis=dict(showgrid=False, title_text='Count'), title_text=f'Distribution of Coding Skillset Required for {code_sel} Position')
+    st.plotly_chart(fig)
+    st.title('''Fig. 1B: Distribution of Coding Skillset''')

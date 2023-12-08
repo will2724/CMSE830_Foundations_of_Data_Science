@@ -1,4 +1,3 @@
-
 import streamlit as st
 from PIL import Image
 st.set_page_config(page_title = 'Analysis of Data Scientist Openings',
@@ -8,9 +7,7 @@ st.set_page_config(page_title = 'Analysis of Data Scientist Openings',
 image = Image.open('image2.png')
 st.image(image, width=600)
 
-
 ##################################################################################################################################################################################################################################################################################
-
 
 import numpy as np
 import pandas as pd
@@ -35,6 +32,7 @@ from sklearn.compose import ColumnTransformer
 from sklearn.impute import SimpleImputer
 from sklearn.model_selection import cross_val_score
 from sklearn.pipeline import make_pipeline, Pipeline
+
 
 data = pd.read_csv('data.csv')
 data.pop('Unnamed: 0')
@@ -73,87 +71,103 @@ columns_to_drop = ['Seniority' , 'Job Title', 'Salary Estimate', 'Job Descriptio
 df = data.drop(columns=columns_to_drop)
 df_orig = df
 
-#removing data
 df = df.loc[(df['Age'] >= 18) & (df['Age'] <= 120)]
 df = df[df['Min. Salary'] > 30000]
 
 df = df.dropna(axis=0)
-col1, col2 = st.columns([4, 2])
-with col1:
-    with st.expander('**View Data**'):
-        st.write(df)
-        with col2:
-            with st.expander('**View Data**'):
-                st.subheader('Summary Statistics of Job Postings')
-                st.write(df.describe())
-    
 
-col1, col2 = st.columns([4,2])
-with col1:
-    num_feats = data.select_dtypes(include=['number']).columns
-    num_feats = num_feats.drop(['Hourly', 'Employer Provided', 'Same State', 'Avg. Salary','Python Exp.', 'Spark Exp.', 'AWS Exp.', 'Excel Exp.'])
-    number_of_feats = st.slider('Select the # of Features to Reflect Prediction', 1,3,1)
-    df_cols = df.columns.drop(['Python Exp.', 'Spark Exp.', 'AWS Exp.', 'Excel Exp.'])
-    available_feats =  num_feats.tolist()
-    selected_feats = []
+############################################################################################################################################################################
 
-    for i in range(number_of_feats):
-        if available_feats:
-            feature_name = st.selectbox(f'Select Feature #{i + 1}', options=available_feats, key=i)
-            selected_feats.append(feature_name)
-            available_feats = [feat for feat in available_feats if feat != feature_name]
-        else:
-            st.warning('No more features available to select.')
-            break  
-with col2:
-    code_skills = st.multiselect(
-    'Select all coding languages you are familiar with:', 
-    ['Python', 'Spark', 'AWS', 'Excel'], 
-    placeholder="Choose an option")
+st.header("Let's Predict Your Salary")
 
+#jt = data['Title Simplified'].tolsit()
+st.subheader('What is simplified job tilie you are seeking?')
 
-y = df['Avg. Salary']
-X = df[selected_feats]
+job_title = st.selectbox(
+    "What job title best reflects your daily work?",
+    ['Data Scientist', 'Analyst', 'Data Engineer', 'Director',
+       'Manager', 'Machine Learning Engineer'])
+
+comp_size = st.selectbox(
+    "How many people are you hoping to have within your new company?",
+    ['501 to 1000 employees', '10000+ employees',
+       '1001 to 5000 employees', '201 to 500 employees',
+       '5001 to 10000 employees', '51 to 200 employees',
+       '1 to 50 employees'])
+
+top = st.selectbox(
+    "What type of ownership are you interested in?",
+   ['Company - Private', 'Other Organization', 'Government',
+       'Company - Public', 'Nonprofit Organization',
+       'Subsidiary or Business Segment'])
+
+pick_sector = st.selectbox(
+    "Which sector are you interested in being apart of?",
+   ['Aerospace & Defense', 'Health Care',
+       'Oil, Gas, Energy & Utilities', 'Real Estate', 'Business Services',
+       'Retail', 'Insurance', 'Transportation & Logistics', 'Finance',
+       'Biotech & Pharmaceuticals', 'Telecommunications',
+       'Information Technology', 'Manufacturing', 'Government',
+       'Agriculture & Forestry', 'Education',
+       'Arts, Entertainment & Recreation', 'Travel & Tourism', 'Media',
+       'Non-Profit'])
+
+work_loc   = st.selectbox(
+    "Ideally what state would you work in?",
+   ['NM', 'MD', 'WA', 'TX', 'VA', 'CO', 'KY', 'OR', 'MI', 'MA', 'CA',
+       'NY', 'IL', 'AL', 'PA', 'GA', 'WI', 'NC', 'IN', 'MN', 'DC', 'OH',
+       'TN', 'NJ', 'MO', 'ID', 'IA', 'FL', 'KS', 'UT', 'AZ'])
+
+predictors = ['Title Simplified', 'Size', 'Type of Ownership', 'Sector', 'Job State']
+target = 'Avg. Salary'
+y = df[target]
+X = df[predictors]
 test_fraction = 0.2
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_fraction)
+X_train, X_test, y_train, y_test = train_test_split(df[predictors], df[target], test_size=0.2, random_state=42)
 
+categorical_features = ['Title Simplified', 'Size', 'Type of Ownership', 'Sector', 'Job State']
+categorical_transformer = OneHotEncoder(handle_unknown='ignore')
 
-model_options = ["Linear Regression", "Ridge", "Lasso"]
-selected_model = st.selectbox("Select a regression model:", model_options)
+preprocessor = ColumnTransformer(
+    transformers=[
+        ('cat', categorical_transformer, categorical_features)
+    ])
 
+model = Pipeline(steps=[('preprocessor', preprocessor),
+                        ('regressor', LinearRegression())])
 
-model_dict = {
-    "Linear Regression": LinearRegression(),
-    "Ridge": Ridge(),
-    "Lasso": Lasso()
-}
-
-
-model = model_dict[selected_model]
 model.fit(X_train, y_train)
+
 y_pred = model.predict(X_test)
+mse = mean_squared_error(y_test, y_pred)
+print(f'Mean Squared Error: {mse}')
 
 
-def evaluate_model (true, predicted):
-    mae = mean_absolute_error(true, predicted)
-    mse = mean_squared_error(true, predicted)
-    rmse = np.sqrt (mean_squared_error (true, predicted))
-    r2_square = r2_score (true, predicted)
-    return mae, mse, rmse, r2_square
-mae, mse, rmse, r2 = evaluate_model(y_test, y_pred)
+def predict_salary(job_title, comp_size, ownership_type, sector, job_state):
+    input_data = pd.DataFrame({
+        'Title Simplified': [job_title],
+        'Size': [comp_size],
+        'Type of Ownership': [ownership_type],
+        'Sector': [sector],
+        'Job State': [job_state]})
+    predicted_salary = model.predict(input_data)
+    return predicted_salary[0]
 
-fig = go.Figure()
-fig.add_trace(go.Scatter(x=np.arange(len(y_test)), y=y_test, mode='markers', name='Actual'))
-fig.add_trace(go.Scatter(x=np.arange(len(y_pred)), y=y_pred, mode='markers', name='Prediction'))
-fig.update_layout(title="Actual vs Predicted Salary Values", xaxis_title="Index", yaxis_title="Values")
-fig.update_traces(marker=dict(size=8,  symbol="diamond",
-                              line=dict(width=2,
-                                        color='DarkSlateGrey')),
-                  selector=dict(mode='markers'))
-st.plotly_chart(fig)
-st.metric(label="Mean Absolute Error (MAE)", value=f"{mae:.2f}")
-st.metric(label="Mean Squared Error (MSE)", value=f"{mse:.2f}")
-st.metric(label="Root Mean Squared Error (RMSE)", value=f"{rmse:.2f}")
-st.metric(label="R-Squared (R2)", value=f"{r2:.2f}")
+image2 = Image.open('IMG_0370.png')
+if st.button("Predict Salary"):
+    predicted_salary = predict_salary(job_title, comp_size, top, pick_sector, work_loc)
+    st.write(f"Predicted Salary: ${predicted_salary:,.2f}")
+    st.image(image2, width=600)
 
-  
+
+
+
+
+
+
+
+
+
+
+
+
