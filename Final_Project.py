@@ -97,7 +97,7 @@ if selected == 'EDA':
     st.title('Exploratior Data Analysis')
         
 
-    tab1, tab2= st.tabs(['**Simple Data Review**', '**Map Visualization**'])
+    tab1, tab2, tab3= st.tabs(['**Simple Data Review**', '**Map Visualization**', '**Correlations**'])
 
     with tab1:
 
@@ -154,6 +154,8 @@ if selected == 'EDA':
             fig.update_layout(xaxis=dict(showgrid=False, title_text=f'Coding Experience for {code_sel}'), yaxis=dict(showgrid=False, title_text='Count'), title_text=f'Distribution of Coding Skillset Required for {code_sel} Position')
             st.plotly_chart(fig)
             st.title('''Fig. 1B: Distribution of Coding Skillset''')
+        
+    with tab2:    
         col1, col2 = st.columns([5,1])
         #title_options = ['Fig. 2A: Average Salary per State','Fig. 2B: Average Job Satisfaction Rating per State','Fig. 2C: Total Number of Job Openings per State']
         st.write('#')
@@ -216,7 +218,7 @@ if selected == 'EDA':
                     st.write(''' Displayed is the total count of job listings in each state.''')
     #st.write("Let's review in the next tab how these 3 features relate to one another.")
 
-    with tab2:
+    with tab3:
 
         st.title('Correlation between Salary, Employee Satisfaction and their Location')
         job_count = df['Job State'].value_counts().reset_index()
@@ -271,6 +273,7 @@ if selected == 'EDA':
 if selected == 'Salary Analysis':
     st.image(image, width=800)
     st.title('Salary Analysis')
+    st.write("Welcome to our Data Scientist Salary Predictor! You have the power to fine-tune the model's accuracy by choosing the features that matter most. Select from the following options to aid in refining predictions:")
     
     col1, col2 = st.columns([4,2])
     with col1:
@@ -347,7 +350,7 @@ if selected == 'Salary Prediction':
     st.header("Let's Predict Your Salary")
 
     #jt = data['Title Simplified'].tolsit()
-    st.subheader('What is simplified job tilie you are seeking?')
+    #st.subheader("Welcome to our Data Scientist Salary Predictor! You have the power to fine-tune the model's accuracy by choosing the features that matter most. Select from the following options to aid in refining predictions:")
 
     job_title = st.selectbox(
         "What job title best reflects your daily work?",
@@ -419,11 +422,11 @@ if selected == 'Salary Prediction':
         predicted_salary = model.predict(input_data)
         return predicted_salary[0]
 
-    image2 = Image.open('IMG_0370.png')
+    image3 = Image.open('Magic8ball.png')
     if st.button("Predict Salary"):
         predicted_salary = predict_salary(job_title, comp_size, top, pick_sector, work_loc)
-        st.write(f"Predicted Salary: ${predicted_salary:,.2f}")
-        st.image(image2, width=100)
+        st.subheader(f"Predicted Salary: ${predicted_salary:,.2f}")
+        #st.image(image3, width=300)
 
 ###############################################################################################################################################
 ###############################################################################################################################################
