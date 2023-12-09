@@ -5,6 +5,6 @@ pandas
 scikit_learn
 seaborn
 streamlit
-
+streamlit-option-menu
 plotly
 matplotlib     
