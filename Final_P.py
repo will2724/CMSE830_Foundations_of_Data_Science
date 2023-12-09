@@ -77,9 +77,7 @@ with st.sidebar:
         options=['Home', 'EDA', 'Salary Analysis', 'Salary Prediction', 'Conclusion','About Me'], 
         icons= ['house-door-fill' , 'rocket-takeoff-fill', 'graph-up', 'layers-fill', 'piggy-bank-fill' ]
     )
-st.set_page_config(page_title = 'Analysis of Data Scientist Openings',
-                   page_icon = '💰',
-                   layout='wide')
+
 ###############################################################################################################################################
 ###############################################################################################################################################
 if selected == 'Home':
@@ -110,7 +108,18 @@ tab1, tab2, tab3, tab4, tab5 = st.tabs(['**Description**', '**Simple Data Review
 with tab2:
     st.title('Dataset Exploratation')
     col1, col2 = st.columns([4, 1])
-    
+    with col1:
+        pursue_ds_career = st.radio('**How sure are you that you want to pursue a career in Data Science**', ['ehh maybe...', '**Very Certain❕**'], horizontal=True)
+        if pursue_ds_career == 'ehh maybe...':
+            st.write(df.head())
+            st.write('#')
+            st.subheader('Summary statistics of a ***few*** job postings')
+            st.write(df.head().describe())
+        else:
+            st.write(df)
+            st.write('#')
+            st.subheader('Summary statistics of **all** job postings')
+            st.write(df.describe())
     with col2:
         select = st.checkbox('Show Description of Features')
         if select:
@@ -152,8 +161,8 @@ with tab2:
         with col1:
             lst = ['Rating', 'Size', 'Founded', 'Age', 'Type of Ownership', 'Sector', 'Revenue', 'Title Simplified', 'Job State']
             #color_sel = st.sidebar.selectbox('Sorting Options', df.columns)
-            st.title('''Fig. 1A: Distribution of Features''')
-            sel = st.selectbox('Features', sorted(lst), index=7)
+            st.sidebar.title('''Fig. 1A: Distribution of Features''')
+            sel = st.sidebar.selectbox('Features', sorted(lst), index=7)
 
             if sel:
                 color_mapping = {

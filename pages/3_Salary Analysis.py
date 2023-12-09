@@ -143,8 +143,10 @@ fig.update_traces(marker=dict(size=8,  symbol="diamond",
                   selector=dict(mode='markers'))
 st.plotly_chart(fig)
 st.metric(label="Mean Absolute Error (MAE)", value=f"{mae:.2f}")
-st.metric(label="Mean Squared Error (MSE)", value=f"{mse:.2f}")
+#st.metric(label="Mean Squared Error (MSE)", value=f"{mse:.2f}")
 st.metric(label="Root Mean Squared Error (RMSE)", value=f"{rmse:.2f}")
 st.metric(label="R-Squared (R2)", value=f"{r2:.2f}")
 
   
+
+  #
