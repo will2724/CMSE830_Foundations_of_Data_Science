@@ -23,6 +23,7 @@ from sklearn.pipeline import make_pipeline, Pipeline
 import streamlit as st
 from streamlit_option_menu import option_menu
 
+st.set_option('deprecation.showPyplotGlobalUse', False)
 st.set_page_config(layout="wide")
 
 data = pd.read_csv('data.csv')
