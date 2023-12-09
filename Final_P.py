@@ -1,5 +1,5 @@
 import streamlit as st
-#from streamlit_option_menu import option_menu
+from streamlit_option_menu import option_menu
 
 import numpy as np
 import pandas as pd
@@ -22,6 +22,8 @@ from sklearn.compose import ColumnTransformer
 from sklearn.impute import SimpleImputer
 from sklearn.model_selection import cross_val_score
 from sklearn.pipeline import make_pipeline, Pipeline
+
+st.set_page_config(layout="wide")
 
 data = pd.read_csv('data.csv')
 data.pop('Unnamed: 0')
