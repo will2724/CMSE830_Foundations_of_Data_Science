@@ -1,6 +1,3 @@
-import streamlit as st
-from streamlit_option_menu import option_menu
-
 import numpy as np
 import pandas as pd
 pd.set_option('display.max_columns',34)
@@ -22,6 +19,9 @@ from sklearn.compose import ColumnTransformer
 from sklearn.impute import SimpleImputer
 from sklearn.model_selection import cross_val_score
 from sklearn.pipeline import make_pipeline, Pipeline
+
+import streamlit as st
+from streamlit_option_menu import option_menu
 
 st.set_page_config(layout="wide")
 
