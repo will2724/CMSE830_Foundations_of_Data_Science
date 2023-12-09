@@ -77,7 +77,7 @@ image = Image.open('image2.png')
 with st.sidebar: 
     selected = option_menu(
         menu_title="Menu",
-        options=['Home', 'EDA', 'Salary Analysis', 'Salary Prediction', 'Conclusion','About Me'], 
+        options=['Home', 'EDA', 'Salary Analysis', 'Salary Prediction', 'Conclusion/About Me'], 
         icons= ['house-door-fill' , 'rocket-takeoff-fill', 'graph-up', 'layers-fill', 'piggy-bank-fill' ]
     )
 
@@ -97,65 +97,19 @@ if selected == 'EDA':
     st.title('Exploratior Data Analysis')
         
 
-    col1, col2 = st.columns([4, 2])
-    with col1:
-        with st.expander('**View Data**'):
-            st.write(df)
-            with col2:
-                with st.expander('**View Data**'):
-                    st.subheader('Summary Statistics of Job Postings')
-                    st.write(df.describe())
+    tab1, tab2= st.tabs(['**Simple Data Review**', '**Map Visualization**'])
 
-    tab1, tab2, tab3, tab4, tab5 = st.tabs(['**Description**', '**Simple Data Review**', '**Map Visualization**', '**Correlations**', '**Conclusion**'])
+    with tab1:
 
-    with tab2:
-        st.title('Dataset Exploratation')
-        col1, col2 = st.columns([4, 1])
+        col1, col2 = st.columns([4, 2])
         with col1:
-            pursue_ds_career = st.radio('**How sure are you that you want to pursue a career in Data Science**', ['ehh maybe...', '**Very Certain❕**'], horizontal=True)
-            if pursue_ds_career == 'ehh maybe...':
-                st.write(df.head())
-                st.write('#')
-                st.subheader('Summary statistics of a ***few*** job postings')
-                st.write(df.head().describe())
-            else:
+            with st.expander('**View Data**'):
                 st.write(df)
-                st.write('#')
-                st.subheader('Summary statistics of **all** job postings')
-                st.write(df.describe())
-        with col2:
-            select = st.checkbox('Show Description of Features')
-            if select:
-                st.write('''
-                Founded: Year company was founded Job
-
-                State: The state where the job is located
-
-                Same State: An indicator of whether the job is in the same state as the person looking at the job
-
-                Age: The age of the person looking at the job
-
-                Python Exp.: An Indicator of whether the person looking at the job knows Python
-
-                R Exp.: An indicator of whether the person looking at the job knows R
-
-                Spark Exp.: An indicator of whether the person looking at the job knows Spark
-
-                AWS Exp.: An Indicator of whether the person looking at the job knows AWS
-
-                Excel Exp.: An indicator of whether the person looking at the job knows Excel
-
-                Title Simplified: A simplified job title
-
-                HQ: Location of Headquarters
-
-                Hourly: An indicator of whether the person will be paid hourly
-
-                Description Length: A count of total number of characters in the job posting
-
-                **MLE: Machine Learning Engineer''')
-
-
+                with col2:
+                    with st.expander('**View Data**'):
+                        st.subheader('Summary Statistics of Job Postings')
+                        st.write(df.describe())
+       
         small_vis = st.radio('**Quick visuals**', ['Distributions', 'Coding Skillset'], horizontal=True)
         if small_vis == 'Distributions':
             st.write('''
@@ -164,8 +118,8 @@ if selected == 'EDA':
             with col1:
                 lst = ['Rating', 'Size', 'Founded', 'Age', 'Type of Ownership', 'Sector', 'Revenue', 'Title Simplified', 'Job State']
                 #color_sel = st.sidebar.selectbox('Sorting Options', df.columns)
-                st.sidebar.title('''Fig. 1A: Distribution of Features''')
-                sel = st.sidebar.selectbox('Features', sorted(lst), index=7)
+                #st.title('''Fig. 1A: Distribution of Features''')
+                sel = st.selectbox('Features', sorted(lst), index=7)
 
                 if sel:
                     color_mapping = {
@@ -177,13 +131,15 @@ if selected == 'EDA':
                     st.plotly_chart(fig, use_container_width=True)
                     st.title('Fig. 1A: Distribution of Features')
                     with col2:
+                        st.write('#')
+                        st.write('#')
                         fig_pie = px.pie(df, names=sel, title=f'Pie chart for {sel}')
                         fig_pie.update_traces(textposition='inside', textinfo='percent+label')
                         st.plotly_chart(fig_pie)
         else:
             code_exp = df.groupby('Title Simplified')[['Python Exp.', 'Spark Exp.', 'AWS Exp.', 'Excel Exp.']].sum().drop_duplicates()
-            st.sidebar.title('''Fig. 1B: Distribution of Coding Skillset''')
-            code_sel = st.sidebar.selectbox('How does your coding experience help', code_exp.index)
+            st.title('''Fig. 1B: Distribution of Coding Skillset''')
+            code_sel = st.selectbox('How does your coding experience help', code_exp.index)
             selected_data = code_exp.loc[code_sel]
             sorted_data = selected_data.sort_values()
             colors = ['crimson' if x == sorted_data.min() else 'green' if x == sorted_data.max() else 'lightslategray' for x in sorted_data]
@@ -198,7 +154,117 @@ if selected == 'EDA':
             fig.update_layout(xaxis=dict(showgrid=False, title_text=f'Coding Experience for {code_sel}'), yaxis=dict(showgrid=False, title_text='Count'), title_text=f'Distribution of Coding Skillset Required for {code_sel} Position')
             st.plotly_chart(fig)
             st.title('''Fig. 1B: Distribution of Coding Skillset''')
+        col1, col2 = st.columns([5,1])
+        #title_options = ['Fig. 2A: Average Salary per State','Fig. 2B: Average Job Satisfaction Rating per State','Fig. 2C: Total Number of Job Openings per State']
+        st.write('#')
+        #st.sidebar.title(f'{title_options[]}')
+        option_box = st.radio('Which map are you interested in viewing?',
+        ['Salaries💸', 'Job Satisfaction 🎭', 'Opportunities 👩‍💻 🧑‍💻 ‍'],horizontal=True)
+        if option_box == 'Salaries💸':
+            st.title('Fig. 2A: Average Salary per State')
+            with col1:
+                st.subheader("""Now let's view the average salary within this dataset to see where """)
+                fig_salaries = px.choropleth(height = 1000, width = 1000,
+                locations= df.groupby('Job State')['Avg. Salary'].mean().round(2).index,
+                locationmode = 'USA-states',
+                color = df.groupby('Job State')['Avg. Salary'].mean().round(2),
+                color_continuous_scale = 'solar',
+                labels = {'color':'Yearly Salary'})
+                st.plotly_chart(fig_salaries.update_layout(geo_scope='usa'))
+                with col2:
+                    st.write('#')
+                    st.write('#')
+                    st.write('#')
+                    st.write('#')
+                    st.write('#')
+                    st.write('#')
+                    st.write('''Displayed is as a graph of the average salary in USD, per state, ranging from ~50k to ~135k''')
+        elif option_box == 'Job Satisfaction 🎭':
+            with col1:
+                st.title('''Fig. 2B: Average Job Satisfaction Rating per State''')
+                fig_rating = px.choropleth(height = 1100, width = 1100,
+                locations = df.groupby('Job State')['Rating'].mean().index,
+                locationmode = 'USA-states',
+                color = round(df.groupby('Job State')['Rating'].mean(), 2),
+                color_continuous_scale = 'solar',
+                labels = {'color':'Employee Satisfaction Rating'})
+                st.plotly_chart(fig_rating.update_layout(geo_scope='usa'))
+                with col2:
+                    st.write('#')
+                    st.write('#')
+                    st.write('#')
+                    st.write('#')
+                    st.write('#')
+                    st.write('''
+                    Displayed is the average satisfaction an employee in their position, this scale ranges from 1 to 5. (1 signifies complete dissatisfaction, 5 signifies absolute enjoyment in their position.)''')
+        elif option_box == 'Opportunities 👩‍💻 🧑‍💻 ‍':
+            st.title('''Fig. 2C: Total Number of Job Openings per State''')
+            with col1:
+                fig_states = px.choropleth(height = 1000, width = 1000,
+                locations = df['Job State'].value_counts().index,
+                locationmode = 'USA-states',
+                color = df['Job State'].value_counts(),
+                color_continuous_scale = 'solar',
+                labels = {'color': 'Job Openings'})
+                st.plotly_chart(fig_states.update_layout(geo_scope='usa'))
+                with col2:
+                    st.write('#')
+                    st.write('#')
+                    st.write('#')
+                    st.write('#')
+                    st.write('#')
+                    st.write(''' Displayed is the total count of job listings in each state.''')
+    #st.write("Let's review in the next tab how these 3 features relate to one another.")
 
+    with tab2:
+
+        st.title('Correlation between Salary, Employee Satisfaction and their Location')
+        job_count = df['Job State'].value_counts().reset_index()
+        job_count.columns = ['Job State', 'Job Count']
+
+        loc_avg_sal = df.groupby('Job State')[['Avg. Salary']].mean()
+        loc_avg_sal.columns = ['Mean Avg Salary']
+
+        loc_ratings = df.groupby('Job State')[['Rating']].mean()
+        loc_ratings.columns = ['Mean Rating']
+
+        df_tb = pd.merge(job_count, loc_avg_sal, on='Job State')
+        df_tb = pd.merge(df_tb, loc_ratings, on='Job State')
+        #df_tb = pd.merge(df_tb, df[['Job State', 'Title Simplified']], on='Job State')
+
+        df_tb = df_tb.sort_values(by=['Mean Avg Salary', 'Mean Rating'], ascending=False)
+        df_tb.reset_index(drop=True, inplace=True)
+        df_tb_rating = df_tb[df_tb['Mean Rating'] >= 4.0]
+
+        st.title('Fig. 3: Correlations')
+        slider = st.select_slider('**Select:**', ['Top Salaies', 'Top Ratings','Best Overall'])
+        col1, col2 = st.columns([4,2])
+
+        #st.sidebar.subheader('''Change between the average salary by state and average employee satisfaction rating by state to view the best and worse state given the selected category.''')
+
+        with col1:
+            if slider == 'Top Salaies':
+                df_tb = df_tb.sort_values(by='Mean Avg Salary', ascending=False).head().round(2)
+                fig = px.scatter_3d(df_tb, x='Job Count', y='Mean Rating', z='Mean Avg Salary',
+                                    color='Job State', title='5 Highest Paying Average Salary by State')
+                with col2:
+                    st.write(df_tb.head())
+            elif slider == 'Top Ratings':
+                df_tb = df_tb.sort_values(by='Mean Rating', ascending=False).head().round(2)
+                fig = px.scatter_3d(df_tb, x='Job Count', y='Mean Rating', z='Mean Avg Salary',
+                                    color='Job State', title='5 Most Satisfied States Correlation')
+                with col2:
+                    st.write(df_tb.head())
+            else:
+                df_tb_rating = df_tb_rating.round(2).head()
+                fig = px.scatter_3d(df_tb_rating, x='Job Count', y='Mean Rating', z='Mean Avg Salary',
+                                    color='Job State', title='5 Most Satisfied States by State')
+                with col2:
+                    st.write(df_tb_rating.head())
+
+            fig.update_traces(marker=dict(size=20))
+            fig.update_layout(width=900, height=900)
+            st.plotly_chart(fig)
 
 ###############################################################################################################################################
 ###############################################################################################################################################
@@ -361,12 +427,7 @@ if selected == 'Salary Prediction':
 
 ###############################################################################################################################################
 ###############################################################################################################################################
-if selected == 'Conclusion':
-    st.title('Conclusion')
-
-###############################################################################################################################################
-###############################################################################################################################################
-if selected == 'About Me':
+if selected == 'Conclusion/About Me':
     st.title('Sharod Williams')
         
     col1, col2 = st.columns([3,2])
