@@ -73,7 +73,8 @@ from PIL import Image
 image = Image.open('image2.png')
 
 ###############################################################################################################################################
-###############################################################################################################################################
+##############  - Menu Page Configuration - ############## 
+
 with st.sidebar: 
     selected = option_menu(
         menu_title="Menu",
@@ -82,7 +83,8 @@ with st.sidebar:
     )
 
 ###############################################################################################################################################
-###############################################################################################################################################
+##############  - Home Page - ############## 
+
 if selected == 'Home':
     st.image(image, width=800)
     st.write("""
@@ -94,7 +96,8 @@ This app steps in, tailored specifically for you. Its goal is to empower users w
 
 Following the review of this app, you will have the information needed to make informed decisions about your career in Data Science. Whether you're a seasoned data scientist, a budding enthusiast, or simply curious about this exciting field, this tool serves as a compass to navigate the complex terrain of Data Science careers.""")
 ###############################################################################################################################################
-###############################################################################################################################################
+##############  - EDA Page - ############## 
+
 if selected == 'EDA':
     #st.image(image, width=800)
     st.title('Exploratior Data Analysis')
@@ -272,7 +275,8 @@ if selected == 'EDA':
             st.plotly_chart(fig)
 
 ###############################################################################################################################################
-###############################################################################################################################################
+##############  - Salary Analysis/Modeling Page - ############## 
+
 if selected == 'Salary Analysis':
     st.image(image, width=800)
     st.title('Salary Analysis')
@@ -347,7 +351,7 @@ if selected == 'Salary Analysis':
     st.metric(label="R-Squared (R2)", value=f"{r2:.2f}")
 
 ###############################################################################################################################################
-###############################################################################################################################################
+##############  - Salary Prediction/Regression Page - ############## 
 if selected == 'Salary Prediction':
     st.title('')
     st.header("Let's Predict Your Salary")
@@ -432,9 +436,9 @@ if selected == 'Salary Prediction':
         #st.image(image3, width=300)
 
 ###############################################################################################################################################
-###############################################################################################################################################
+##############  - Conclusion Page - ############## 
+
 if selected == 'Conclusion/About Me':
-    st.title('Sharod Williams')
         
     col1, col2 = st.columns([3,2])
 
@@ -451,6 +455,7 @@ In Data Science, it's not just about numbers and algorithms; it's about the boun
 
 As you continue to explore and grow in this field, maintain your curiosity, ask questions, and push the boundaries of what's possible. The future of Data Science is bright, and individuals like you will be instrumental in shaping it.""")
     with col2:
+        st.title('Sharod Williams')
         image2 = Image.open('IMG_0370.png')
         st.image(image2, width=300)
         st.write('Committed to using computational techniques to solve community problems, furthering my professional development through enrolling in courses and completing projects, while working independently and collaboratively as a data scientist/bioinformatician.')
