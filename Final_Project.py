@@ -1,4 +1,4 @@
-import numpy as np
+iimport numpy as np
 import pandas as pd
 pd.set_option('display.max_columns',34)
 import matplotlib.pyplot as plt
@@ -86,10 +86,13 @@ with st.sidebar:
 if selected == 'Home':
     st.image(image, width=800)
     st.write("""
-    We long gone past the time when we once lived where every action required user input and the view on how math subjects can be applicable outside of what is required while in school.  Thanks to every growing field on Artificial Intelligence (AI) and Machine Learning (ML) and the well renowned [article published in Harvard Business Review](https://hbr.org/2012/10/data-scientist-the-sexiest-job-of-the-21st-century) back in 2012, which called Data Science (DS) the sexiest job of the 21st century. As businesses continue to seek ways effectively access trends (from present data, reviewing trends from past data and accurately predicting future trends), satisfy the need of customers while operating in the most efficient way possible.
+Welcome to the Data Science Salary Predictor app, where the gap between the past and the future is bridged to showcase the incredible potential that the world of Artificial Intelligence (AI) and Machine Learning (ML) has unlocked. In today's digital age, mathematical concepts are no longer confined to textbooks; they now play a pivotal role in shaping professional lives and personal experiences.
 
-    It is widely known that pursing a career in Data Science can be rewarding in terms of income, while that may be the case as the great saying goes 'More money, more problems'. This purpose of this app will explore through the job listings from a Glassdoor back in 2016 and observe certain trends in salaries, location, satisfaction of a position, the abundance of positions and see how they all relate to one another.""")
+Back in 2012, a groundbreaking article published in the esteemed Harvard Business Review heralded Data Science (DS) as the 'sexiest job of the 21st century.' Fast forward to today, the significance of data-driven decision-making has only intensified. Businesses worldwide are fervently seeking ways to harness the power of data to understand current trends, analyze historical data for insights, and predict future trends accurately. They aim to meet customer needs while operating with maximum efficiency and agility.
 
+This app steps in, tailored specifically for you. Its goal is to empower users with the knowledge needed to navigate the dynamic landscape of Data Science careers. Pursuing a career in Data Science can indeed be financially rewarding, but as the saying goes, 'More money, more problems.' To address this, the app delves deep into job listings from Glassdoor, sourced from the year 2016, to unveil key insights.
+
+Following the review of this app, you will have the information needed to make informed decisions about your career in Data Science. Whether you're a seasoned data scientist, a budding enthusiast, or simply curious about this exciting field, this tool serves as a compass to navigate the complex terrain of Data Science careers.""")
 ###############################################################################################################################################
 ###############################################################################################################################################
 if selected == 'EDA':
@@ -439,17 +442,17 @@ if selected == 'Conclusion/About Me':
         image = Image.open('image2.png')
         st.image(image, width=600)
         st.title('Conclusion')
-        st.write('''Throughout the exploration of this dataset certain factors have been analyzed to support your journey as you try to find the data science position that is right for you. It was also shown that the more money you make in a position equaites to having a higher level of happiness. This process included reviewal of underlying commonalities in the listings, an evaluation of different visualizations was made to help make this easier, including the comparing and contrasting of the relationship agamous Salary, Employee Satisfaction and their Location. I plan to further investigate this dataset by conducting testing and training of the data, this will allow for better accurate imputation of the missing data.''')
+        st.write("""
+Your time spent exploring the Data Science Salary Predictor app is genuinely appreciated. Your curiosity and engagement with this tool are invaluable.
+
+In the ever-evolving world of Data Science, knowledge empowers. The insights gathered here can serve as a valuable resource as you navigate your career path. Whether you're a seasoned professional staying informed or a newcomer embarking on a data-driven journey, your pursuit of understanding is commendable.
+
+In Data Science, it's not just about numbers and algorithms; it's about the boundless possibilities that data unveils. These insights equip you to make informed decisions, set realistic expectations, and confidently move towards your Data Science aspirations.
+
+As you continue to explore and grow in this field, maintain your curiosity, ask questions, and push the boundaries of what's possible. The future of Data Science is bright, and individuals like you will be instrumental in shaping it.""")
     with col2:
         image2 = Image.open('IMG_0370.png')
         st.image(image2, width=300)
         st.write('Committed to using computational techniques to solve community problems, furthering my professional development through enrolling in courses and completing projects, while working independently and collaboratively as a data scientist/bioinformatician.')
-
-
-#    
-
-
-#st.set_page_config(page_title = 'Analysis of Data Scientist Openings', page_icon = '💰', layout='wide')
-
 
 
