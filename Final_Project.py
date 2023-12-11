@@ -459,13 +459,11 @@ As you continue to explore and grow in this field, maintain your curiosity, ask 
         image2 = Image.open('IMG_0370.png')
         st.image(image2, width=300)
         st.write('Committed to using computational techniques to solve community problems, furthering my professional development through enrolling in courses and completing projects, while working independently and collaboratively as a data scientist/bioinformatician.')
-        st.write("""
-Hobbies include:
-                 ➡️ Watching Football(American) / Fansty Football
-                 ➡️ Hanging out with friends/family
-                 ➡️ Traveling the world and gaining new experiences
-                 ➡️ Playing video games
+        st.write("Hobbies include:")
+        st.write(' ➡️ Watching Football(American) / Fansty Football')
+        st.write(' ➡️ Hanging out with friends/family')
+        st.write(' ➡️ Traveling the world and gaining new experiences')
+        st.write(' ➡️ Playing video games')
 
-        """)
 
 
