@@ -443,8 +443,8 @@ if selected == 'Conclusion/About Me':
     col1, col2 = st.columns([3,2])
 
     with col1:
-        image = Image.open('image2.png')
-        st.image(image, width=600)
+        #image = Image.open('image2.png')
+        #st.image(image, width=600)
         st.title('Conclusion')
         st.write("""
 Your time spent exploring the Data Science Salary Predictor app is genuinely appreciated. Your curiosity and engagement with this tool are invaluable.
@@ -456,7 +456,7 @@ In Data Science, it's not just about numbers and algorithms; it's about the boun
 As you continue to explore and grow in this field, maintain your curiosity, ask questions, and push the boundaries of what's possible. The future of Data Science is bright, and individuals like you will be instrumental in shaping it.""")
     with col2:
         st.title('Sharod Williams')
-        #image2 = Image.open('IMG_0370.png')
+        image2 = Image.open('IMG_0370.png')
         st.image(image2, width=300)
         st.write('Committed to using computational techniques to solve community problems, furthering my professional development through enrolling in courses and completing projects, while working independently and collaboratively as a data scientist/bioinformatician.')
 
